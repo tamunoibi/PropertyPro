@@ -186,3 +186,9 @@ ul ul, ul ol, ol ol, ol ul {
 li {
   margin-bottom: 1rem;
 }
+
+/* Margin */
+
+.mt-1 {
+  margin-top: .25rem;
+}
