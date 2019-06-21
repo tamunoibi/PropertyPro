@@ -92,3 +92,7 @@ th {
     margin: 0 auto;
   }
 }
+
+i, input[type=checkbox] {
+  cursor: pointer
+}
