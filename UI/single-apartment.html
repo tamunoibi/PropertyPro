@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="https://i.postimg.cc/DwNHdbYm/logo.png" />
+    <link rel="stylesheet" href="./css/single-apartment.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Apartment</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="topnav" id="top-nav-bar">
+        <a class="active" id="pd-none"><img src="https://i.postimg.cc/DwNHdbYm/logo.png" alt="" class="logo"></a>
+        <a href="./login.html" class="text-info">Logout</a>
+        <a href="./all-apartment.html" class="active-text">Browse Homes</a>
+        <a href="javascript:void(0);" class="icon">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+    </header>
+    <main>
+      <div class="card">
+        <div class="top-section">
+          <img id="image-container" src="https://fibre.ams3.digitaloceanspaces.com/Room_A_2_Shrunk.JPG" alt="">
+          <!-- <div class="nav">
+              <img src="https://fibre.ams3.digitaloceanspaces.com/Room_A_2_Shrunk.JPG" alt="" class="image-item">
+              <img src="https://fibre.ams3.digitaloceanspaces.com/wi75c0vxoksrje7lisjn.jpg" alt="" class="image-item">
+              <img src=" https://fibre.ams3.digitaloceanspaces.com/ovpmrkwj1d5zactclr5r.jpg" alt="" class="image-item">
+            </div> -->
+          <div class="nav">
+            <img onclick="change_img(this)" src="https://fibre.ams3.digitaloceanspaces.com/Room_A_2_Shrunk.JPG" alt="">
+            <img onclick="change_img(this)" src="https://fibre.ams3.digitaloceanspaces.com/wi75c0vxoksrje7lisjn.jpg"
+              alt="">
+            <img onclick=" change_img(this)" src="https://fibre.ams3.digitaloceanspaces.com/ovpmrkwj1d5zactclr5r.jpg"
+              alt="">
+          </div>
+          <div class="status">Available</div>
+        </div>
+        <div class="product-info">
+          <div class="name">3 Bedroom Flat</div>
+          <div class="dis"><b>Banana Island, Ikeja</b></div>
+          <p class="ds"><b>400,000 </b>Per Annum</p>
+          <div class="dis">Has unlimited power supply</div>
+          <a class="btn" href="#">Book Visit</a>
+        </div>
+      </div>
+    </main>
+    <script src="js/main.js"></script>
+    <!-- <script src="js/single-apartmet.js"></script> -->
+    <script type="text/javascript">
+      const container = document.getElementById("image-container");
+      function change_img(image) {
+        container.src = image.src;
+      }
+    </script>
+  </body>
+
+</html>
