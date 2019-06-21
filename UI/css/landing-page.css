@@ -1,0 +1,69 @@
+/* Base Style
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+@import "./main.css";
+/* Mobile Screen
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+/* Padding */
+
+.pd-2 {
+  padding: 2em;
+}
+
+body {
+  margin: 0;
+  font-size: 1.1em;
+  line-height: 1.5;
+  text-align: center;
+  color: #333;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.grid {
+  display: grid;
+  margin-top: 60px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas: "section-a section-a section-a section-a" "section-b section-b section-b section-b" "section-c section-c section-c section-c" "section-d section-d section-d section-d" "section-e section-e section-e section-e";
+}
+
+.section-a {
+  grid-area: section-a;
+}
+
+.section-b {
+  grid-area: section-b;
+}
+
+.section-c {
+  grid-area: section-c;
+  box-shadow: 10px 10px 5px #aaaaaa;
+}
+
+.section-d {
+  grid-area: section-d;
+}
+
+.section-e {
+  grid-area: section-e;
+}
+
+/*
+.hide {
+  display: none;
+} */
+
+.content-title {
+  font-weight: 400;
+}
+
+footer {
+  height: 100px;
+  color: #ffffff;
+  padding-top: 30px;
+}
