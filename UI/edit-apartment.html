@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="https://i.postimg.cc/DwNHdbYm/logo.png" />
+    <link rel="stylesheet" href="css/apartment-form.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Document</title>
+  </head>
+  <header>
+    <div class="topnav" id="top-nav-bar">
+      <a class="active" id="pd-none" href="./index.html"><img src="https://i.postimg.cc/DwNHdbYm/logo.png" alt=""
+          class="logo"></a>
+      <a href="./index.html">Log out</a>
+      <a href="#" class="active-text">All apartments</a>
+      <a href="javascript:void(0);" class="icon">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+  </header>
+
+  <body>
+    <section class="form-container">
+      <form action="" method="">
+        <hr class="hr">
+        <!-- Title -->
+        <h4>Edit APARTMENT #003</h4>
+        <!-- Apartment Type -->
+        <label>Apartment Type</label>
+        <select>
+          <option value="">1 Bedroom Flat</option>
+          <option value="">2 Bedroom Flat</option>
+          <option value="">3 Bedroom Flat</option>
+          <option value="">Mini Flat</option>
+        </select>
+        <!-- Apartment Location -->
+        <label>Location</label>
+        <input type="text" value="20 Shomolu Street, Yaba" autofocus>
+        <!-- Number -->
+        <label>Price Of the Apartment</label>
+        <input type="number" value="200000">
+        <!-- File Address -->
+        <div>
+          <label>
+            <input type="file" style="display: none;">
+            <img class="big-gravatar"
+              src="https://images.pexels.com/photos/534182/pexels-photo-534182.jpeg?cs=srgb&dl=architecture-balcony-building-534182.jpg&fm=jpg">
+            <img class="big-gravatar"
+              src="https://images.pexels.com/photos/122782/pexels-photo-122782.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940">
+            <img class="big-gravatar" src="https://fibre.ams3.digitaloceanspaces.com/Room_A_2_Shrunk.JPG">
+          </label>
+          <br>
+        </div>
+        <!-- Submit button -->
+        <br>
+        <button class="button button-primary" type="submit">Update</button>
+      </form>
+      <script src="js/main.js"></script>
+    </section>
+  </body>
+
+</html>

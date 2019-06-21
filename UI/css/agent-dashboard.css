@@ -1,0 +1,94 @@
+@import "../css/header.css";
+@import "./utilities.css";
+@import url('https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap');
+body {
+  background: #fff;
+  color: #1e394e;
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
+  background: rgb(244, 246, 248);
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: #4990e2;
+}
+
+a:hover {
+  color: #2fbbad;
+}
+
+#primary-content {
+  padding: 0 8px 2px 8px;
+  margin: 12px 17px;
+  background-color: #fcc604;
+  background-color: #676ae6;
+  opacity: 0.811;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+/*Mobile First */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+  background: #fff;
+}
+
+td, th {
+  padding: 8px;
+  text-align: left;
+  padding: 8px;
+  vertical-align: top;
+  border-bottom: 1px solid rgb(245, 245, 245);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(245, 245, 245);
+  line-height: 1.5;
+  letter-spacing: 0.4px;
+}
+
+tr:hover {
+  background-color: rgb(238, 240, 252);
+}
+
+.hover-disable:hover {
+  background: none;
+}
+
+/* Zebra striping */
+
+tr:nth-of-type(odd) {
+  /* background: #16a085; */
+}
+
+th {
+  background: rgb(250, 252, 255);
+  font-weight: bold;
+}
+
+.gravatar {
+  /* vertical-align: middle; */
+  width: 35px;
+  height: 35px;
+  border-radius: 50%
+}
+
+.hr {
+  background: #4990e2;
+  height: 1px;
+  margin-bottom: 20px;
+}
+
+/* Larger than phablet Screen
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+@media only screen and (min-width: 768px) {
+  .table-container {
+    max-width: 1204px;
+    margin: 0 auto;
+  }
+}
