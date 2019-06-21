@@ -8,6 +8,10 @@
   margin-left: 20px;
 }
 
+.logo:hover {
+  cursor: pointer;
+}
+
 /* Style the header */
 
 header {
@@ -43,6 +47,9 @@ header {
 
 .topnav a.active {
   float: left;
+  padding-left: 0;
+  /* color: #000; */
+  font-weight: bold;
 }
 
 .topnav .icon {
@@ -81,4 +88,9 @@ header {
     display: block;
     text-align: left;
   }
+}
+
+#pd-none {
+  padding: 0;
+  margin: 0;
 }
