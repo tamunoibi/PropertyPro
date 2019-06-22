@@ -1,4 +1,4 @@
-import moment from 'moment';
+// import moment from 'moment';
 import passwordHash from 'password-hash';
 
 export default {
@@ -6,29 +6,32 @@ export default {
     {
       id: 1,
       email: 'example@example.com',
-      firstName: 'Tammy',
-      lastName: 'Aprekuma',
+      first_name: 'Tammy',
+      last_name: 'Aprekuma',
       password: passwordHash.generate('password'),
-      type: 'staff',
-      isAdmin: true,
+      phoneNumber: '08136532017',
+      address: '20 Banana Island Road, Lagos',
+      is_admin: true,
     },
     {
       id: 2,
       email: 'john@example.com',
-      firstName: 'John',
-      lastName: 'Oke',
+      first_name: 'John',
+      last_name: 'Oke',
+      phoneNumber: '08136532017',
+      address: '20 Banana Island Road, Lagos',
       password: passwordHash.generate('password'),
-      type: 'cashier',
-      isAdmin: false,
+      is_admin: false,
     },
     {
       id: 3,
       email: 'johnoke@gmail.com',
-      firstName: 'John',
-      lastName: 'Oke',
+      first_name: 'John',
+      last_name: 'Oke',
+      phoneNumber: '08136532017',
+      address: '20 Banana Island Road, Lagos',
       password: passwordHash.generate('password'),
-      type: 'customer',
-      isAdmin: false,
+      is_admin: false,
     },
   ],
 };
