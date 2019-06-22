@@ -13,6 +13,4 @@ node_modules
 .vscode/
 
 # files for experimenting with new features
-server/ayomide
-todo.txt
-example.js
+
