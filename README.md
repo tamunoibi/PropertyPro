@@ -1,1 +1,1 @@
-# PropertyPro
+# PropertyPro [![Build Status](https://travis-ci.com/girlking/PropertyPro.svg?branch=develop)](https://travis-ci.com/girlking/PropertyPro) [![Coverage Status](https://coveralls.io/repos/github/girlking/PropertyPro/badge.svg?branch=develop)](https://coveralls.io/github/girlking/PropertyPro?branch=develop)
