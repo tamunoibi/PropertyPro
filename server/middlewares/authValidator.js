@@ -2,7 +2,7 @@ import validate from 'validate.js';
 import Helpers from '../helpers/Helpers';
 import authentication from '../helpers/Authenticator';
 
-import userModel from '../models/userModel.js';
+import userModel from '../models/userModel';
 
 const { extractErrors } = Helpers;
 const { getUser } = userModel;
@@ -17,19 +17,18 @@ export default class AuthValidator {
    */
   static validateSignUp(req, res, next) {
     req
-      .check('firstName', 'First Name is required')
+      .check('email', 'Email is required')
+      .notEmpty()
+      .isEmail()
+      .withMessage('Invalid email');
+    req
+      .check('first_name', 'First Name is required')
       .notEmpty()
       .trim();
     req
-      .check('lastName', 'Last Name is required')
+      .check('last_name', 'Last Name is required')
       .notEmpty()
       .trim();
-    req
-      .check('phone', 'The phone number is required')
-      .notEmpty()
-      .trim()
-      .isLength({ min: 11 })
-      .withMessage('Enter a valid phone number');
     req
       .check('password', 'Password is required')
       .notEmpty()
@@ -37,10 +36,23 @@ export default class AuthValidator {
       .isLength({ min: 6 })
       .withMessage('password cannot be less then 6 characters');
     req
-      .check('email', 'Email is required')
+      .check('phoneNumber', 'The phone number is required')
       .notEmpty()
-      .isEmail()
-      .withMessage('Invalid email');
+      .trim()
+      .isLength({ min: 11 })
+      .withMessage('Enter a valid phone number');
+    req
+      .check('address', 'Address is required')
+      .notEmpty()
+      .trim()
+      .isLength({ min: 11 })
+      .withMessage('Invalid address');
+    req
+      .check('is_admin', 'The User type is required')
+      .notEmpty()
+      .trim()
+      .isBoolean()
+      .withMessage('Invalid User type');
 
     const errors = req.validationErrors();
     if (errors) {
@@ -121,31 +133,6 @@ export default class AuthValidator {
       const decodedToken = decode(token);
 
       if (decodedToken.isAdmin) {
-        return next();
-      }
-    } catch (err) {
-      return res.status(401).send({
-        status: 401,
-        error: 'Unauthorized',
-      });
-    }
-
-    return next();
-  }
-
-  static isStaff(req, res, next) {
-    const token = req.body.token || req.headers.token;
-    try {
-      if (validate.isEmpty(token)) {
-        return res.status(401).send({
-          status: 401,
-          error: 'Unauthorized',
-        });
-      }
-      const decodedToken = decode(token);
-      console.log('TCL: AuthValidator -> isStaff -> token', decodedToken);
-
-      if (decodedToken.type === 'cashier') {
         return next();
       }
     } catch (err) {

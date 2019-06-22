@@ -13,30 +13,36 @@ export default class UserModel {
   static create(req, res) {
     const {
       email,
-      firstName,
-      lastName,
+      first_name,
+      last_name,
       password,
-      phone,
-      isAdmin,
-      type,
+      phoneNumber,
+      address,
+      is_admin,
     } = req.body;
     const hashedpassword = passwordHash.generate(password);
 
     const user = {
       id: users.length + 1,
       email,
-      firstName,
-      lastName,
+      first_name,
+      last_name,
+      phoneNumber,
+      address,
       password: hashedpassword,
-      phone,
-      type,
-      isAdmin,
-      DateCreated: moment(),
+      is_admin,
     };
 
     try {
       users.push(user);
-      return user;
+      const { id } = user;
+      const userDetails = {
+        id,
+        first_name,
+        last_name,
+        email,
+      };
+      return userDetails;
     } catch (err) {
       return res
         .status(500)

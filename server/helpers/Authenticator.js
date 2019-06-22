@@ -1,19 +1,19 @@
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 dotenv.config();
-const {SECRET} = process.env;
+const { SECRET } = process.env;
 /**
  * Handles access token generation and verification
  */
 class Authenticator {
   /**
    * @description Handles access token generation
-   * @param {object} payload - The user credential {id, isAdmin}
+   * @param {object} payload - The user credential {id, is_admin}
    * @return {string} access token
    */
   static generateToken(payload) {
-    return jwt.sign(payload, SECRET, { expiresIn: '3h' });
+    return jwt.sign(payload, SECRET, { expiresIn: "3h" });
   }
 
   /**

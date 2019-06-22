@@ -16,8 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 
-app.use(router);
-// app.use('/v1', router);
+app.use('/api/v1', router);
 
 app.listen(port, () => {
   debugg(`App started at port ${port}`);
