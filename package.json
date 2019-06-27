@@ -6,7 +6,6 @@
   "scripts": {
     "start": "babel-node server/app.js",
     "bootcamp:build": "babel server/app.js -d build && build/server/app.js",
-    "ayo": "nodemon example.js --exec babel-node --presets babel-preset-env ",
     "dev": "nodemon server/app.js --exec babel-node --presets babel-preset-env",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha ./server/test/**/*.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
