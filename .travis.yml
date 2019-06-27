@@ -4,4 +4,4 @@ node_js:
 install: npm install
 script: npm test
 notifications: false
-after_success: npm run coverage
+after_success: npm run coveralls

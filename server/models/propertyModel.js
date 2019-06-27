@@ -2,14 +2,14 @@ import moment from 'moment';
 import dummyData from './dummyData';
 import authentication from '../helpers/Authenticator';
 
-const { properties } = dummyData;
+const { properties, users } = dummyData;
 const { decode } = authentication;
 
-export default class AccountModel {
+export default class PropertyModel {
   static create(req, res) {
     const {
- type, price, state, city, address, image_url 
-} = req.body;
+      type, price, state, city, address, image_url,
+    } = req.body;
     const status = 'sold';
     const token = req.body.token || req.headers.token;
     const decodedToken = decode(token);
@@ -50,5 +50,78 @@ export default class AccountModel {
         .status(500)
         .json({ status: 'error', message: 'Internal Server error' });
     }
+  }
+
+  static update(req, res) {
+    const { propertyId } = req.params;
+    const {
+      type, price, state, city, address, image_url, status,
+    } = req.body;
+    let propertyIndex;
+
+    const property = properties.find((eachProperty, index) => {
+      if (eachProperty.id === parseInt(propertyId, 10)) {
+        propertyIndex = index;
+        return eachProperty;
+      }
+    });
+    if (!property) {
+      return res
+        .status(404)
+        .send({ status: 'error', error: 'The Property does not exist' });
+    }
+
+    if (type) {
+      property.type = type;
+    }
+    if (price) {
+      property.price = price;
+    }
+    if (state) {
+      property.state = state;
+    }
+    if (city) {
+      property.city = city;
+    }
+    if (address) {
+      property.address = address;
+    }
+    if (image_url) {
+      property.image_url = image_url;
+    }
+    if (status) {
+      property.status = status;
+    }
+    properties.splice(propertyIndex, 1, property);
+
+    const user = users.find(EachUser => EachUser.id === propertyId);
+    console.log(user);
+    const propertyDetails = {
+      id: property.id,
+      status: property.status,
+      type: property.type,
+      state: property.state,
+      city: property.city,
+      address: property.address,
+      price: property.price,
+      created_on: property.created_on,
+      image_url: property.image_url,
+      ownerEmail: 'email',
+      ownerPhoneNumber: 'number',
+    };
+    // const propertyDetails = {
+    //   id: property.id,
+    //   status: property.status,
+    //   type: property.type,
+    //   state: property.state,
+    //   city: property.city,
+    //   address: property.address,
+    //   price: property.price,
+    //   created_on: property.created_on,
+    //   image_url: property.image_url,
+    //   ownerEmail: user.email,
+    //   ownerPhoneNumber: user.phoneNumber,
+    // };
+    return propertyDetails;
   }
 }

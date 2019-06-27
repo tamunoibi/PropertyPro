@@ -19,6 +19,6 @@
     }
   },
   "rules": {
-    "linebreak-style": 0
+    "camelcase": "off"
   }
 }

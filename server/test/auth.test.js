@@ -37,7 +37,7 @@ describe('POST /auth/signup', () => {
         .send(user)
         .expect(409);
       expect(res.statusCode).toEqual(409);
-      expect(res.body).toEqual({ status: 409, error: 'User already exists' });
+      expect(res.body).toEqual({ status: 'error', error: 'User already exists' });
     } catch (error) {
       console.log(error);
     }
