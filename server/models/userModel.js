@@ -1,5 +1,5 @@
 import passwordHash from 'password-hash';
-import moment from 'moment';
+// import moment from 'moment';
 import dummyData from './dummyData';
 
 const { users } = dummyData;

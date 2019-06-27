@@ -5,10 +5,21 @@ import AuthValidator from '../middlewares/authValidator';
 
 const propertyRouter = express.Router();
 
-const { validateCreateProperty } = PropertyValidator;
-const { createProperty } = propertyController;
+const {
+  validateCreateProperty,
+  validateUpdateProperty,
+  validateParam,
+} = PropertyValidator;
+const { createProperty, updateProperty } = propertyController;
 const { isAdmin } = AuthValidator;
 
 propertyRouter.post('/', validateCreateProperty, isAdmin, createProperty);
+propertyRouter.patch(
+  '/:propertyId',
+  validateUpdateProperty,
+  isAdmin,
+  validateParam,
+  updateProperty,
+);
 
 export default propertyRouter;
