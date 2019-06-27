@@ -1,4 +1,4 @@
-// import moment from 'moment';
+import moment from 'moment';
 import passwordHash from 'password-hash';
 
 export default {
@@ -32,6 +32,32 @@ export default {
       address: '20 Banana Island Road, Lagos',
       password: passwordHash.generate('password'),
       is_admin: false,
+    },
+  ],
+  properties: [
+    {
+      id: 1,
+      owner: 1,
+      status: 'available',
+      price: '20000',
+      state: 'Lagos State',
+      city: 'Yaba',
+      address: '20 Ikorodu Road',
+      type: '3 Bedroom',
+      created_on: moment(),
+      image_url: 'http:cloud',
+    },
+    {
+      id: 2,
+      owner: 3,
+      status: 'sold',
+      price: '20000',
+      state: 'Lagos State',
+      city: 'Yaba',
+      address: '20 Ikorodu Road',
+      type: '3 Bedroom',
+      created_on: moment(),
+      image_url: 'http:cloud',
     },
   ],
 };

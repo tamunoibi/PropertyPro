@@ -1,7 +1,6 @@
 import validate from 'validate.js';
 import Helpers from '../helpers/Helpers';
 import authentication from '../helpers/Authenticator';
-
 import userModel from '../models/userModel';
 
 const { extractErrors } = Helpers;
@@ -57,7 +56,7 @@ export default class AuthValidator {
     const errors = req.validationErrors();
     if (errors) {
       return res.status(400).json({
-        status: 400,
+        status: 'error',
         error: extractErrors(errors),
       });
     }
@@ -70,7 +69,7 @@ export default class AuthValidator {
     if (user) {
       return res
         .status(409)
-        .json({ status: 409, error: 'User already exists' });
+        .json({ status: 'error', error: 'User already exists' });
     }
     return next();
   }
@@ -90,54 +89,32 @@ export default class AuthValidator {
     const errors = req.validationErrors();
     if (errors) {
       return res.status(400).json({
-        status: 400,
+        status: 'error',
         errors: extractErrors(errors),
       });
     }
     return next();
   }
 
-  static checkToken(req, res, next) {
-    const token = req.body.token || req.headers.token;
-
-    try {
-      if (validate.isEmpty(token)) {
-        return res.status(401).send({
-          status: 401,
-          error: 'Unauthorized',
-        });
-      }
-      const decodedToken = decode(token);
-      if (decodedToken.id) {
-        return next();
-      }
-    } catch (err) {
-      return res.status(401).send({
-        status: 401,
-        error: 'Unauthorized cos not match',
-      });
-    }
-
-    return next();
-  }
-
   static isAdmin(req, res, next) {
     const token = req.body.token || req.headers.token;
+
     try {
       if (validate.isEmpty(token)) {
         return res.status(401).send({
-          status: 401,
+          status: 'error',
           error: 'Unauthorized',
         });
       }
       const decodedToken = decode(token);
+      // decodedToken = { id: 1, is_admin: true, iat: 1561623061, exp: 1561633861 }
 
       if (decodedToken.isAdmin) {
         return next();
       }
     } catch (err) {
       return res.status(401).send({
-        status: 401,
+        status: 'error',
         error: 'Unauthorized',
       });
     }
