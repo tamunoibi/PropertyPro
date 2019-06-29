@@ -2,10 +2,13 @@ import validate from 'validate.js';
 import Helpers from '../helpers/Helpers';
 import authentication from '../helpers/Authenticator';
 import userModel from '../models/userModel';
+import dummyData from '../models/dummyData';
 
 const { extractErrors } = Helpers;
 const { getUser } = userModel;
 const { decode } = authentication;
+const { properties } = dummyData;
+
 
 export default class AuthValidator {
   /**
@@ -96,8 +99,10 @@ export default class AuthValidator {
     return next();
   }
 
-  static isAdmin(req, res, next) {
+  static isOwner(req, res, next) {
     const token = req.body.token || req.headers.token;
+    const { propertyId } = req.params;
+
 
     try {
       if (validate.isEmpty(token)) {
@@ -107,9 +112,11 @@ export default class AuthValidator {
         });
       }
       const decodedToken = decode(token);
-      // decodedToken = { id: 1, is_admin: true, iat: 1561623061, exp: 1561633861 }
+      const { id, is_admin } = decodedToken;
 
-      if (decodedToken.isAdmin) {
+      const property = properties.find(EachProperty => EachProperty.id === parseInt(propertyId, 10));
+
+      if (property.owner === id && is_admin) {
         return next();
       }
     } catch (err) {
@@ -119,6 +126,9 @@ export default class AuthValidator {
       });
     }
 
-    return next();
+    return res.status(401).send({
+      status: 'error',
+      error: 'Unauthorized',
+    });
   }
 }

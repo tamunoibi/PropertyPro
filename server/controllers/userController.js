@@ -23,13 +23,13 @@ export default class UserController {
       });
     } catch (err) {
       return res.status(500).json({
-        status: 500,
-        error: 'Internal server error Unable to login new user',
+        status: 'error',
+        error: 'Internal server error Unable to signin new user',
       });
     }
   }
 
-  static async loginUser(req, res) {
+  static async signinUser(req, res) {
     try {
       const { email, password } = req.body;
       const user = await getUser(email);
@@ -42,6 +42,7 @@ export default class UserController {
 
       if (passwordHash.verify(password.trim(), user.password)) {
         const { id, is_admin } = user;
+
         const token = await generateToken({ id, is_admin });
 
         const { first_name, last_name } = user;
@@ -64,7 +65,7 @@ export default class UserController {
     } catch (err) {
       return res
         .status(500)
-        .send({ status: 500, error: 'Internal server error' });
+        .send({ status: 'error', error: 'Internal server error' });
     }
   }
 }
