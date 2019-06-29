@@ -161,4 +161,11 @@ export default class PropertyModel {
     properties.splice(accountIndex, 1);
     return 'Property successfully deleted';
   }
+
+  static getAll() {
+    if (properties) {
+      return properties;
+    }
+    return false;
+  }
 }
