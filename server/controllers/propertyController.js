@@ -1,7 +1,7 @@
 import PropertyModel from '../models/propertyModel';
 
 const {
-  create, update, updateStatus, remove, getAll,
+  create, update, updateStatus, remove, getAll, getSingle,
 } = PropertyModel;
 
 export default class PropertyController {
@@ -80,7 +80,23 @@ export default class PropertyController {
     let property;
 
     try {
-      property = getAll();
+      property = getAll(res);
+      return res.status(201).json({
+        status: 'success',
+        data: property,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        status: 'error',
+        error: 'Internal server error Unable to post new property',
+      });
+    }
+  }
+
+  static getSpecificProperty(req, res) {
+    let property;
+    try {
+      property = getSingle(req, res);
       return res.status(201).json({
         status: 'success',
         data: property,

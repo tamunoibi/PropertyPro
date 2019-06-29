@@ -162,10 +162,25 @@ export default class PropertyModel {
     return 'Property successfully deleted';
   }
 
-  static getAll() {
+  static getAll(res) {
     if (properties) {
       return properties;
     }
-    return false;
+    return res
+      .status(404)
+      .send({ status: 'error', error: 'No property found' });
+  }
+
+  static getSingle(req, res) {
+    const { propertyId } = req.params;
+
+    const property = properties.find(eachProperty => eachProperty.id === parseInt(propertyId, 10));
+
+    if (property) {
+      return property;
+    }
+    return res
+      .status(404)
+      .send({ status: 'error', error: 'The Property with the given id does not exist' });
   }
 }
