@@ -14,11 +14,14 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [".js"]
+        "extensions": [
+          ".js"
+        ]
       }
     }
   },
   "rules": {
-    "camelcase": "off"
+    "camelcase": "off",
+    "linebreak-style": 0
   }
 }
