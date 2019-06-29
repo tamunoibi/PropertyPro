@@ -1,0 +1,21 @@
+{
+  "presets": ["env"],
+  "plugins": [
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    [
+      "transform-runtime",
+      {
+        "polyfill": false,
+        "regenerator": true
+      }
+    ]
+  ],
+  "sourceMaps": true,
+  "retainLines": true,
+  "env": {
+    "test": {
+      "plugins": [["istanbul"]]
+    }
+  }
+}
