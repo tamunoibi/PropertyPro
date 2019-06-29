@@ -54,8 +54,9 @@ export default class PropertyModel {
 
   static update(req, res) {
     const { propertyId } = req.params;
+
     const {
-      type, price, state, city, address, image_url, status,
+      type, price, state, city, address, image_url,
     } = req.body;
     let propertyIndex;
 
@@ -89,9 +90,44 @@ export default class PropertyModel {
     if (image_url) {
       property.image_url = image_url;
     }
-    if (status) {
-      property.status = status;
+    properties.splice(propertyIndex, 1, property);
+
+    const propertyDetails = {
+      id: property.id,
+      status: property.status,
+      type: property.type,
+      state: property.state,
+      city: property.city,
+      address: property.address,
+      price: property.price,
+      created_on: property.created_on,
+      image_url: property.image_url,
+      ownerEmail: 'email',
+      ownerPhoneNumber: 'number',
+    };
+    return propertyDetails;
+  }
+
+  static updateStatus(req, res) {
+    const { propertyId } = req.params;
+
+    const status = 'sold';
+    let propertyIndex;
+
+    const property = properties.find((eachProperty, index) => {
+      if (eachProperty.id === parseInt(propertyId, 10)) {
+        propertyIndex = index;
+        return eachProperty;
+      }
+    });
+    if (!property) {
+      return res
+        .status(404)
+        .send({ status: 'error', error: 'The Property does not exist' });
     }
+
+
+    property.status = status;
     properties.splice(propertyIndex, 1, property);
 
     const propertyDetails = {
