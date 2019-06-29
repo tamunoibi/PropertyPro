@@ -49,7 +49,7 @@ export default {
     },
     {
       id: 2,
-      owner: 3,
+      owner: 1,
       status: 'sold',
       price: '20000',
       state: 'Lagos State',

@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 dotenv.config();
 const { SECRET } = process.env;
@@ -13,7 +13,7 @@ class Authenticator {
    * @return {string} access token
    */
   static generateToken(payload) {
-    return jwt.sign(payload, SECRET, { expiresIn: "3h" });
+    return jwt.sign(payload, SECRET, { expiresIn: '30000h' });
   }
 
   /**

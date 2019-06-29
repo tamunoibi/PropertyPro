@@ -43,11 +43,11 @@ describe('POST /auth/signup', () => {
     }
   });
 });
-describe('POST /auth/login', () => {
+describe('POST /auth/signin', () => {
   it('should respond with 200', async () => {
     try {
       const res = await request(app)
-        .post(`${baseUrl}/login`)
+        .post(`${baseUrl}/signin`)
         .send({ email: 'example@example.com', password: 'password' })
         .expect(200);
       expect(res.statusCode).toEqual(200);
@@ -59,7 +59,7 @@ describe('POST /auth/login', () => {
   it('should respond with 401 and error Invalid username or password', async () => {
     try {
       const res = await request(app)
-        .post(`${baseUrl}/login`)
+        .post(`${baseUrl}/signin`)
         .send({
           email: 'example@yahoo.com',
           password: 'nonExistentPassword',
@@ -74,7 +74,7 @@ describe('POST /auth/login', () => {
   it('should respond with 401 and error Invalid username or password', async () => {
     try {
       const res = await request(app)
-        .post(`${baseUrl}/login`)
+        .post(`${baseUrl}/signin`)
         .send({
           email: 'nonExistentEmail@yahoo.com',
           password: 'nonExistentPassword',

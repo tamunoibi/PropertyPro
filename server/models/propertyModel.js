@@ -2,7 +2,7 @@ import moment from 'moment';
 import dummyData from './dummyData';
 import authentication from '../helpers/Authenticator';
 
-const { properties, users } = dummyData;
+const { properties } = dummyData;
 const { decode } = authentication;
 
 export default class PropertyModel {
@@ -94,8 +94,6 @@ export default class PropertyModel {
     }
     properties.splice(propertyIndex, 1, property);
 
-    const user = users.find(EachUser => EachUser.id === propertyId);
-    console.log(user);
     const propertyDetails = {
       id: property.id,
       status: property.status,
@@ -109,19 +107,6 @@ export default class PropertyModel {
       ownerEmail: 'email',
       ownerPhoneNumber: 'number',
     };
-    // const propertyDetails = {
-    //   id: property.id,
-    //   status: property.status,
-    //   type: property.type,
-    //   state: property.state,
-    //   city: property.city,
-    //   address: property.address,
-    //   price: property.price,
-    //   created_on: property.created_on,
-    //   image_url: property.image_url,
-    //   ownerEmail: user.email,
-    //   ownerPhoneNumber: user.phoneNumber,
-    // };
     return propertyDetails;
   }
 }
