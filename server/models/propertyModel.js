@@ -145,4 +145,20 @@ export default class PropertyModel {
     };
     return propertyDetails;
   }
+
+  static remove(req) {
+    const { propertyId } = req.params;
+    let accountIndex;
+
+    const property = properties.find((eachProperty, index) => {
+      if (eachProperty.id === parseInt(propertyId, 10)) {
+        accountIndex = index;
+        return eachProperty;
+      }
+    });
+
+    if (!property) { return false; }
+    properties.splice(accountIndex, 1);
+    return 'Property successfully deleted';
+  }
 }

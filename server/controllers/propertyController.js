@@ -1,6 +1,8 @@
 import PropertyModel from '../models/propertyModel';
 
-const { create, update, updateStatus } = PropertyModel;
+const {
+  create, update, updateStatus, remove,
+} = PropertyModel;
 
 export default class PropertyController {
   static createProperty(req, res) {
@@ -52,5 +54,25 @@ export default class PropertyController {
         error: 'Internal server error Unable to modify property',
       });
     }
+  }
+
+  static deleteProperty(req, res) {
+    try {
+      const message = remove(req, res);
+
+      if (message) {
+        return res.status(200).json({
+          status: 'success',
+          data: { message },
+        });
+      }
+      res.status(404).send({ status: 'error', error: 'The Property does not exist' });
+    } catch (err) {
+      return res.status(500).json({
+        status: 'error',
+        error: 'Internal server error Unable to create new Bank account',
+      });
+    }
+    return false;
   }
 }
