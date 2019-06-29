@@ -131,4 +131,28 @@ export default class AuthValidator {
       error: 'Unauthorized',
     });
   }
+
+  static checkToken(req, res, next) {
+    const token = req.body.token || req.headers.token;
+
+    try {
+      if (validate.isEmpty(token)) {
+        return res.status(401).send({
+          status: 401,
+          error: 'Unauthorized',
+        });
+      }
+      const decodedToken = decode(token);
+      if (decodedToken.id) {
+        return next();
+      }
+    } catch (err) {
+      return res.status(401).send({
+        status: 401,
+        error: 'Unauthorized cos not match',
+      });
+    }
+
+    return next();
+  }
 }
