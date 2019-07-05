@@ -1,7 +1,7 @@
 //  TODO: change to destructuring
 // import { Router } from 'express';
 import express from 'express';
-import AuthValidator from '../v1/middlewares/authValidator';
+import AuthValidator from '../middlewares/authValidator';
 import userController from '../controllers/userController';
 
 // Used for routs that start with /api/v1

@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import chai from 'chai';
 import chaiHTTP from 'chai-http';
 import app from '../app';

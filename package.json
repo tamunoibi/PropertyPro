@@ -7,7 +7,8 @@
     "start": "babel-node server/app.js",
     "dev": "nodemon server/app.js --exec babel-node --presets babel-preset-env",
     "test": "cross-env NODE_ENV=test nyc mocha ./server/test/**/*.test.js --timeout 30000 --exit",
-    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test"
+    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
+    "configure": "nodemon server/playground/sql/app.js"
   },
   "repository": {
     "type": "git",

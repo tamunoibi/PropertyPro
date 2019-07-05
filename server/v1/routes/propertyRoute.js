@@ -1,9 +1,9 @@
 //  TODO: change to destructuring
 // import { Router } from 'express';
 import express from 'express';
-import PropertyValidator from '../v1/middlewares/propertyValidator';
+import PropertyValidator from '../middlewares/propertyValidator';
 import propertyController from '../controllers/propertyController';
-import AuthValidator from '../../middlewares/authValidatortor';
+import AuthValidator from '../middlewares/authValidator';
 
 // const propertyRouter = Router();
 const propertyRouter = express.Router();
@@ -21,7 +21,7 @@ const { isOwner, checkToken } = AuthValidator;
 
 
 // These routes are only available to agents
-propertyRouter.post('/', validateCreateProperty, isOwner, createProperty);
+propertyRouter.post('/', validateCreateProperty, createProperty);
 propertyRouter.patch('/:propertyId', validateParam, validateUpdateProperty, isOwner, updateProperty);
 propertyRouter.patch('/:propertyId/sold', validateParam, isOwner, markAsSold);
 propertyRouter.delete('/:propertyId', validateParam, isOwner, deleteProperty);

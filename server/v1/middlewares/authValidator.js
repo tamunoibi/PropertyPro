@@ -138,7 +138,7 @@ export default class AuthValidator {
     try {
       if (validate.isEmpty(token)) {
         return res.status(401).send({
-          status: 401,
+          status: 'error',
           error: 'Unauthorized',
         });
       }
@@ -148,8 +148,8 @@ export default class AuthValidator {
       }
     } catch (err) {
       return res.status(401).send({
-        status: 401,
-        error: 'Unauthorized cos not match',
+        status: 'error',
+        error: 'Unauthorized does not match',
       });
     }
 

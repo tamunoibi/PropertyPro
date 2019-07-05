@@ -1,0 +1,27 @@
+
+import { Router } from 'express';
+import PropertyValidator from '../../middlewares/propertyValidator';
+import propertyController from '../../controllers/propertyController';
+import AuthValidator from '../../middlewares/authValidator';
+
+const agentRoute = Router();
+
+
+const {
+  validateCreateProperty, validateUpdateProperty, validateParam,
+} = PropertyValidator;
+const {
+  createProperty, updateProperty, markAsSold, deleteProperty,
+} = propertyController;
+const { isOwner } = AuthValidator;
+
+// Used for routs that start with /api/v1
+// /api/v1/property is already prepended to the route
+// These routes are only available to the agent(s)
+
+agentRoute.post('/', validateCreateProperty, isOwner, createProperty);
+agentRoute.patch('/:propertyId', validateParam, validateUpdateProperty, isOwner, updateProperty);
+agentRoute.patch('/:propertyId/sold', validateParam, isOwner, markAsSold);
+agentRoute.delete('/:propertyId', validateParam, isOwner, deleteProperty);
+
+export default agentRoute;

@@ -1,4 +1,7 @@
 import PropertyModel from '../models/propertyModel';
+import authentication from '../helpers/Authenticator';
+
+const { decode } = authentication;
 
 const {
   create, update, updateStatus, remove, getAll, getSingle,
@@ -6,13 +9,33 @@ const {
 
 export default class PropertyController {
   static createProperty(req, res) {
-    let property;
+    const {
+      type, price, state, city, address, image_url,
+    } = req.body;
+    const status = 'available';
+    const token = req.body.token || req.headers.token;
+    const decodedToken = decode(token);
+    // console.log(decodedToken); // { id: 1, iat: 1558795050, exp: 1558805850 }
+
+    const owner = decodedToken.id;
+
+    const property = {
+      owner,
+      status,
+      price,
+      state,
+      city,
+      address,
+      type,
+      image_url,
+    };
 
     try {
-      property = create(req, res);
+      const data = create(property);
+      const { owner: propertyOwner, ...others } = data;
       return res.status(201).json({
         status: 'success',
-        data: property,
+        data: others,
       });
     } catch (err) {
       return res.status(500).json({
@@ -23,13 +46,32 @@ export default class PropertyController {
   }
 
   static updateProperty(req, res) {
-    let property;
+    const { propertyId } = req.params;
 
+    const {
+      type, price, state, city, address, image_url,
+    } = req.body;
+    const existingProperty = getSingle(propertyId);
+    if (!existingProperty) {
+      return res
+        .status(404)
+        .send({ status: 'error', error: 'The Property does not exist' });
+    }
+
+    const data = {
+      type: type || existingProperty.type,
+      price: price || existingProperty.price,
+      state: state || existingProperty.state,
+      city: city || existingProperty.city,
+      address: address || existingProperty.address,
+      image_url: image_url || existingProperty.image_url,
+    };
     try {
-      property = update(req, res);
+      const property = update(propertyId, data);
+      const { owner, ...others } = property;
       return res.status(200).json({
         status: 'success',
-        data: property,
+        data: others,
       });
     } catch (err) {
       return res.status(500).json({
@@ -80,8 +122,8 @@ export default class PropertyController {
     let property;
 
     try {
-      property = getAll(res);
-      return res.status(201).json({
+      property = getAll(req, res);
+      return res.status(200).json({
         status: 'success',
         data: property,
       });
@@ -94,10 +136,16 @@ export default class PropertyController {
   }
 
   static getSpecificProperty(req, res) {
-    let property;
+    const { propertyId } = req.params;
     try {
-      property = getSingle(req, res);
-      return res.status(201).json({
+      const property = getSingle(propertyId);
+      if (!property) {
+        return res.status(404).json({
+          status: 'error',
+          error: 'The Property with the given id does not exist',
+        });
+      }
+      return res.status(200).json({
         status: 'success',
         data: property,
       });
