@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import userRouter from './userRoute';
-import propertyRouter from './propertyRoute';
-import AuthValidator from '../middlewares/authValidator';
+import userRouter from '../v1/routes/userRoute';
+import propertyRouter from '../v1/routes/propertyRoute';
+import AuthValidator from '../v1/middlewares/authValidator';
 
 
 const router = Router();
@@ -12,7 +12,6 @@ const { isSignin } = AuthValidator;
 // /api/v1 is already prepended to the route
 
 router.all('/', (req, res) => {
-  console.log(v1());
   res.status(200).send('Welcome to Property Pro home page');
 });
 

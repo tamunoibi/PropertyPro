@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import request from 'supertest';
 import expect from 'expect';
-import app from '../app';
+import app from '../../app';
 import authentication from '../helpers/Authenticator';
 
 const { encode } = authentication;
@@ -46,9 +46,10 @@ describe('Property Test', () => {
     it('GET /property/:propertyId should get property by Id', async () => {
       try {
         const res = await request(app)
-          .get(`${baseUrl}/property/1`)
+          .get(`${baseUrl}/property/10586138425`)
           .set('token', superUserToken);
         expect(res.statusCode).toEqual(200);
+        console.log('TCL: res.body;', res.body);
         expect(res.body.status).toEqual('success');
       } catch (error) {
         console.log(error);
@@ -81,7 +82,7 @@ describe('Property Test', () => {
     it('PATCH /property/:propertyId should update property', async () => {
       try {
         const res = await request(app)
-          .get(`${baseUrl}/property/2`)
+          .get(`${baseUrl}/property/10586138425`)
           .set('token', superUserToken);
         expect(res.statusCode).toEqual(200);
         expect(res.body.status).toEqual('success');
@@ -92,7 +93,7 @@ describe('Property Test', () => {
     it('PATCH /property/:propertyId/sold should mark as sold', async () => {
       try {
         const res = await request(app)
-          .get(`${baseUrl}/property/2/sold`)
+          .get(`${baseUrl}/property/10586138425/sold`)
           .set('token', superUserToken);
         expect(res.statusCode).toEqual(200);
         expect(res.body.status).toEqual('success');
@@ -103,11 +104,10 @@ describe('Property Test', () => {
     it('DELETE /property/:propertyId should delete property', async () => {
       try {
         const res = await request(app)
-          .delete(`${baseUrl}/property/2`)
+          .delete(`${baseUrl}/property/10586138425`)
           .set('token', superUserToken);
         expect(res.statusCode).toEqual(200);
         expect(res.body.status).toEqual('success');
-        expect(res.body.data.message).toEqual('Property successfully deleted');
       } catch (error) {
         console.log(error);
       }
