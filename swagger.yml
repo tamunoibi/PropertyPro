@@ -1,0 +1,313 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: PROPERTY_PRO_Lite
+  description: 'PROPERTY PRO Lite is a platform where people can create and/or search properties for sale or rent.'
+  contact: {}
+host: 127.0.0.1:4000
+basePath: /api/v1
+schemes:
+- http
+- https
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /auth/signup:
+    post:
+      description: user sign up route
+      summary: 127.0.0.1:4000/api/v1/auth/signup
+      tags:
+      - Users
+      operationId: AuthSignupPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: first_name
+        in: formData
+        required: true
+        type: string
+        description: 'first name of the user'
+      - name: last_name
+        in: formData
+        required: true
+        type: string
+        description: 'last name of the user'
+      - name: phoneNumber
+        in: formData
+        required: true
+        type: string
+        description: 'phone number of the user'
+      - name: password
+        in: formData
+        required: true
+        type: string
+        description: 'password of the user'
+      - name: email
+        in: formData
+        required: true
+        type: string
+        description: 'email of the user'
+      - name: address
+        in: formData
+        required: true
+        type: string
+        description: 'address of the user'
+      - name: is_admin
+        in: formData
+        required: true
+        type: string
+        description: 'role the user'
+
+      responses:
+        200:
+          description: 'Signup successful'
+          headers: {}
+  /auth/login:
+    post:
+      description: user can login with proper params
+      summary: 127.0.0.1:4000/api/v1/auth/login
+      tags:
+      - Users
+      operationId: AuthLoginPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: email
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: password
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /property:
+    post:
+      description: api for creating a new property advert
+      summary: 127.0.0.1:4000/api/v1/property
+      tags:
+      - property
+      operationId: propertyPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: price
+        in: formData
+        required: true
+        type: string
+        description: 'The price of the property'
+      - name: state
+        in: formData
+        required: true
+        type: string
+        description: 'The state the property is located'
+      - name: city
+        in: formData
+        required: true
+        type: string
+        description: 'The city the property is located'
+      - name: address
+        in: formData
+        required: true
+        type: string
+        description: 'The address of the property is located'
+      - name: type
+        in: formData
+        required: true
+        type: string
+        description: 'The type of the property is located'
+      - name: image_url
+        in: formData
+        required: true
+        type: string
+        description: 'cloudinary url link to images of the property'
+      responses:
+        200:
+          description: 'Success'
+          headers: {}
+        400:
+          description: 'Some fields are empty or invalid'
+          headers: {}
+        401:
+          description: 'Only an agent can create a property'
+          headers: {}
+        500:
+         description: 'Internal server error'
+         headers: {}
+    get:
+      description: get all property adverts
+      summary: 127.0.0.1:4000/api/v1/property
+      tags:
+      - property
+      operationId: PropertyGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: 'success'
+          headers: {}
+        404:
+          description: 'No usr found'
+          headers: {}
+        401:
+          description: 'You must log in to continue'
+          headers: {}
+        500:
+          description: 'Internal Server Error'
+          headers: {}
+  /property?type:
+    get:
+      description: 'gets all properties of a specific type'
+      summary: 127.0.0.1:4000/api/v1/property?type
+      tags:
+      - property
+      operationId: PropertyTypeGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: 'success'
+          headers: {}
+        404:
+          description: 'No usr found'
+          headers: {}
+        401:
+          description: 'You must log in to continue'
+          headers: {}
+        500:
+          description: 'Internal server error'
+          headers: {}
+  /property/sold:
+    patch:
+      description: 'Mark property as sold'
+      summary: 127.0.0.1:4000/api/v1/sold
+      tags:
+      - property
+      operationId: PropertySoldPatch
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: 'success'
+          headers: {}
+        404:
+          description: 'Property does not exist'
+          headers: {}
+        401:
+          description: 'Unauthorized'
+          headers: {}
+        500:
+          description: 'Internal server error'
+          headers: {}
+  /property/1:
+    delete:
+      description: route to delete a property advert
+      summary: 127.0.0.1:4000/api/v1/property/1
+      tags:
+      - property
+      operationId: Property1Delete
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: 'success'
+          headers: {}
+        404:
+          description: 'Property not found'
+          headers: {}
+        401:
+          description: 'Authorization error'
+          headers: {}
+        500:
+          description: 'Internal Server Error'
+          headers: {}
+    patch:
+      description: route to update the details of a property advert
+      summary: 127.0.0.1:4000/api/v1/property/1
+      tags:
+      - property
+      operationId: Property1Patch
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: 'success'
+          headers: {}
+        404:
+          description: 'Property not found'
+          headers: {}
+        401:
+          description: 'Authorization error'
+          headers: {}
+        500:
+          description: 'Internal Server Error'
+          headers: {}
+    get:
+      description: fetch a specific property advert
+      summary: 127.0.0.1:4000/api/v1/property/1
+      tags:
+      - property
+      operationId: property1Get
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: 'success'
+          headers: {}
+        404:
+          description: 'Property not found'
+          headers: {}
+        401:
+          description: 'Authorization error'
+          headers: {}
+        500:
+          description: 'Internal Server Error'
+          headers: {}
+tags:
+- name: Users
+  description: 'api route for all users'
+- name: property
+  description: 'api route for all properties'

@@ -1,7 +1,4 @@
 import PropertyModel from '../models/propertyModel';
-import authentication from '../helpers/Authenticator';
-
-const { decode } = authentication;
 
 const {
   create, update, updateStatus, remove, getAll, getSingle,
@@ -13,11 +10,8 @@ export default class PropertyController {
       type, price, state, city, address, image_url,
     } = req.body;
     const status = 'available';
-    const token = req.body.token || req.headers.token;
-    const decodedToken = decode(token);
-    // console.log(decodedToken); // { id: 1, iat: 1558795050, exp: 1558805850 }
+    const owner = res.data.id;
 
-    const owner = decodedToken.id;
 
     const property = {
       owner,
@@ -33,15 +27,9 @@ export default class PropertyController {
     try {
       const data = create(property);
       const { owner: propertyOwner, ...others } = data;
-      return res.status(201).json({
-        status: 'success',
-        data: others,
-      });
+      return res.status(201).json({ status: 'success', data: others });
     } catch (err) {
-      return res.status(500).json({
-        status: 'error',
-        error: 'Internal server error Unable to post new property',
-      });
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to post new property' });
     }
   }
 
@@ -52,11 +40,8 @@ export default class PropertyController {
       type, price, state, city, address, image_url,
     } = req.body;
     const existingProperty = getSingle(propertyId);
-    if (!existingProperty) {
-      return res
-        .status(404)
-        .send({ status: 'error', error: 'The Property does not exist' });
-    }
+    if (!existingProperty) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
+    if (existingProperty.id !== res.data.id) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
 
     const data = {
       type: type || existingProperty.type,
@@ -69,15 +54,9 @@ export default class PropertyController {
     try {
       const property = update(propertyId, data);
       const { owner, ...others } = property;
-      return res.status(200).json({
-        status: 'success',
-        data: others,
-      });
+      return res.status(200).json({ status: 'success', data: others });
     } catch (err) {
-      return res.status(500).json({
-        status: 'error',
-        error: 'Internal server error Unable to modify property',
-      });
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to modify property' });
     }
   }
 
@@ -100,38 +79,30 @@ export default class PropertyController {
 
   static deleteProperty(req, res) {
     try {
-      const message = remove(req, res);
+      const { propertyId } = req.params;
+      const { id } = res.data;
+      const property = remove(propertyId, id);
 
-      if (message) {
-        return res.status(200).json({
-          status: 'success',
-          data: { message },
-        });
-      }
-      res.status(404).send({ status: 'error', error: 'The Property does not exist' });
+      if (property === 'unauthorized') return res.status(401).send({ status: 'error', error: 'Unauthorized' });
+      if (property === undefined) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
+      return res.status(200).send({ status: 'success', data: 'Property successfully deleted' });
     } catch (err) {
-      return res.status(500).json({
-        status: 'error',
-        error: 'Internal server error Unable to create new Bank account',
-      });
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to create new Bank account' });
     }
-    return false;
   }
 
   static getAllProperty(req, res) {
+    const { type } = req.query;
     let property;
 
+
     try {
-      property = getAll(req, res);
-      return res.status(200).json({
-        status: 'success',
-        data: property,
-      });
+      property = type ? getAll(type) : getAll();
+      if (property.length === 0) return res.status(404).send({ status: 'error', error: 'No property found' });
+
+      return res.status(200).json({ status: 'success', data: property });
     } catch (err) {
-      return res.status(500).json({
-        status: 'error',
-        error: 'Internal server error Unable to post new property',
-      });
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to post new property' });
     }
   }
 
@@ -139,21 +110,14 @@ export default class PropertyController {
     const { propertyId } = req.params;
     try {
       const property = getSingle(propertyId);
+
       if (!property) {
-        return res.status(404).json({
-          status: 'error',
-          error: 'The Property with the given id does not exist',
-        });
+        return res.status(404).json({ status: 'error', error: 'The Property with the given id does not exist' });
       }
-      return res.status(200).json({
-        status: 'success',
-        data: property,
-      });
+
+      return res.status(200).json({ status: 'success', data: property });
     } catch (err) {
-      return res.status(500).json({
-        status: 'error',
-        error: 'Internal server error Unable to post new property',
-      });
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to post new property' });
     }
   }
 }

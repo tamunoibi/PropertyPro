@@ -1,6 +1,4 @@
-//  TODO: change to destructuring
-// import { Router } from 'express';
-import express from 'express';
+import { Router } from 'express';
 import AuthValidator from '../middlewares/authValidator';
 import userController from '../controllers/userController';
 
@@ -10,8 +8,7 @@ import userController from '../controllers/userController';
 const { validateSignUp, userExists, validateLogin } = AuthValidator;
 const { createAccount, signinUser } = userController;
 
-// const userRouter = Router();
-const userRouter = express.Router();
+const userRouter = Router();
 
 userRouter.post('/signup', validateSignUp, userExists, createAccount);
 userRouter.post('/signin', validateLogin, signinUser);

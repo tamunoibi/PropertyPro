@@ -1,12 +1,9 @@
-//  TODO: change to destructuring
-// import { Router } from 'express';
-import express from 'express';
+import { Router } from 'express';
 import PropertyValidator from '../v1/middlewares/propertyValidator';
-import propertyController from '../controllers/propertyController';
-import AuthValidator from '../../middlewares/authValidatortor';
+import propertyController from '../v1/controllers/propertyController';
+import AuthValidator from '../v1/middlewares/authValidator';
 
-// const propertyRouter = Router();
-const propertyRouter = express.Router();
+const propertyRouter = Router();
 
 // Used for routs that start with /api/v1
 // /api/v1/property is already prepended to the route
@@ -17,11 +14,13 @@ const {
 const {
   createProperty, updateProperty, markAsSold, deleteProperty, getAllProperty, getSpecificProperty,
 } = propertyController;
-const { isOwner, checkToken } = AuthValidator;
+const { isOwner, checkToken, isSignin } = AuthValidator;
 
 
 // These routes are only available to agents
-propertyRouter.post('/', validateCreateProperty, isOwner, createProperty);
+propertyRouter.post('/', validateCreateProperty, isSignin, (req, res) => {
+  res.send('hi');
+});
 propertyRouter.patch('/:propertyId', validateParam, validateUpdateProperty, isOwner, updateProperty);
 propertyRouter.patch('/:propertyId/sold', validateParam, isOwner, markAsSold);
 propertyRouter.delete('/:propertyId', validateParam, isOwner, deleteProperty);

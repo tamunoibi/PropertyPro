@@ -4,6 +4,8 @@ const { extractErrors } = helpers;
 
 export default class PropertyValidator {
   static validateCreateProperty(req, res, next) {
+    const { is_admin } = res.data;
+    if (!is_admin) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
     req
       .check('price', 'price is required')
       .notEmpty()
@@ -44,7 +46,7 @@ export default class PropertyValidator {
     const errors = req.validationErrors();
     if (errors) {
       return res.status(400).json({
-        status: 'errror',
+        status: 'error',
         error: extractErrors(errors),
       });
     }

@@ -1,13 +1,19 @@
 import moment from 'moment';
+import randomNumber from 'random-number';
 import dummyData from './dummyData';
 
 const { properties } = dummyData;
+const options = {
+  min: 9874316514,
+  max: 18743165140,
+  integer: true,
+};
 
 export default class PropertyModel {
   static create(property) {
     const model = {
       ...property,
-      id: properties.length + 1,
+      id: randomNumber(options),
       created_on: moment(),
     };
     properties.push(model);
@@ -35,12 +41,7 @@ export default class PropertyModel {
         return eachProperty;
       }
     });
-    if (!property) {
-      return res
-        .status(404)
-        .send({ status: 'error', error: 'The Property does not exist' });
-    }
-
+    if (!property) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
 
     property.status = status;
     properties.splice(propertyIndex, 1, property);
@@ -61,45 +62,26 @@ export default class PropertyModel {
     return propertyDetails;
   }
 
-  static remove(req) {
-    const { propertyId } = req.params;
-    let accountIndex;
-
-    const property = properties.find((eachProperty, index) => {
+  static remove(propertyId, id) {
+    let property;
+    properties.forEach((eachProperty, index) => {
       if (eachProperty.id === parseInt(propertyId, 10)) {
-        accountIndex = index;
-        return eachProperty;
+        property = eachProperty.owner === id ? properties.splice(index, 1) : 'unauthorized';
       }
     });
-
-    if (!property) { return false; }
-    properties.splice(accountIndex, 1);
-    return 'Property successfully deleted';
+    return property;
   }
 
-  static getAll(req, res) {
-    if (properties) {
-      const { type } = req.query;
+  static getAll(type) {
+    if (!type) return properties;
 
-
-      if (!type) {
-        return properties;
-      }
-
-      const propertyOfType = [];
-      properties.forEach((eachProperty) => {
-        if (eachProperty.type === type) {
-          propertyOfType.push(eachProperty);
-        }
-      });
-      if (propertyOfType.length > 0) {
-        return propertyOfType;
-      }
-    }
-    return res
-      .status(404)
-      .send({ status: 'error', error: 'No property found' });
+    const propertyOfType = [];
+    properties.forEach((eachProperty) => {
+      if (eachProperty.type === type) propertyOfType.push(eachProperty);
+    });
+    return propertyOfType;
   }
+
 
   static getSingle(propertyId) {
     return properties.find(eachProperty => eachProperty.id === parseInt(propertyId, 10));

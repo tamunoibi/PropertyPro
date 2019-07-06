@@ -2,12 +2,10 @@ import validate from 'validate.js';
 import Helpers from '../helpers/Helpers';
 import authentication from '../helpers/Authenticator';
 import userModel from '../models/userModel';
-import dummyData from '../models/dummyData';
 
 const { extractErrors } = Helpers;
 const { getUser } = userModel;
 const { decode } = authentication;
-const { properties } = dummyData;
 
 
 export default class AuthValidator {
@@ -99,10 +97,8 @@ export default class AuthValidator {
     return next();
   }
 
-  static isOwner(req, res, next) {
+  static isSignin(req, res, next) {
     const token = req.body.token || req.headers.token;
-    const { propertyId } = req.params;
-
 
     try {
       if (validate.isEmpty(token)) {
@@ -114,9 +110,13 @@ export default class AuthValidator {
       const decodedToken = decode(token);
       const { id, is_admin } = decodedToken;
 
-      const property = properties.find(EachProperty => EachProperty.id === parseInt(propertyId, 10));
+      if (id) {
+        const data = {
+          id,
+          is_admin,
+        };
+        res.data = data;
 
-      if (property.owner === id && is_admin) {
         return next();
       }
     } catch (err) {
@@ -132,27 +132,9 @@ export default class AuthValidator {
     });
   }
 
-  static checkToken(req, res, next) {
-    const token = req.body.token || req.headers.token;
-
-    try {
-      if (validate.isEmpty(token)) {
-        return res.status(401).send({
-          status: 'error',
-          error: 'Unauthorized',
-        });
-      }
-      const decodedToken = decode(token);
-      if (decodedToken.id) {
-        return next();
-      }
-    } catch (err) {
-      return res.status(401).send({
-        status: 'error',
-        error: 'Unauthorized does not match',
-      });
-    }
-
+  static isAdmin(req, res, next) {
+    const { is_admin } = res.data;
+    if (!is_admin) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
     return next();
   }
 }
