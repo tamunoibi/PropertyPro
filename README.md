@@ -25,7 +25,7 @@ The User interface is simple and intuitive.
 
 ### REST API Docs
 
-[PropertyPro-lite documentation link](https://propertypro256.herokuapp.com/api-docs/)
+[PropertyPro-lite documentation link](https://propertypro256.herokuapp.com/api/v1/api-docs/)
 
 
 ### Required Features
