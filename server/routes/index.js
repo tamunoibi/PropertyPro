@@ -17,7 +17,7 @@ const { validateParam } = PropertyValidator;
 // /api/v1 is already prepended to the route
 
 router.all('/', (req, res) => {
-  res.status(200).send('Welcome to Property Pro home page');
+  res.status(200).send({ status: 'success', data: 'Welcome to Property Pro home page' });
 });
 
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

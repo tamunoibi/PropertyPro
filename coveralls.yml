@@ -1,0 +1,36 @@
+plugins:
+  duplication:
+    enabled: true
+checks:
+  argument-count:
+    config:
+      threshold: 4
+  complex-logic:
+    config:
+      threshold: 4
+  file-lines:
+    config:
+      threshold: 300
+  method-complexity:
+    config:
+      threshold: 6
+  method-count:
+    config:
+      threshold: 20
+  method-lines:
+    config:
+      threshold: 30
+  nested-control-flow:
+    config:
+      threshold: 4
+  return-statements:
+    config:
+      threshold: 4
+exclude_patterns:
+  - node_modules/
+  - server/swagger.js
+  - server/v1/helpers/
+  - server/v1/middlewares/
+  - server/v1/models/
+  - server/v1/test/
+  - dist/

@@ -7,22 +7,21 @@ import app from '../../app';
 request.agent(app.listen());
 
 const baseUrl = '/api/v1/auth/';
-const user = {
-  first_name: 'John',
-  last_name: 'Paul',
-  phoneNumber: '09087653462',
-  password: 'password',
-  email: 'tammddfy@example.com',
-  address: '20 Ibuku Street, Lagos',
-  is_admin: true,
-};
 
 describe('POST /auth/signup', () => {
   it('should respond with status 201', async () => {
     try {
       const res = await request(app)
         .post(`${baseUrl}/signup`)
-        .send(user)
+        .send({
+          first_name: 'John',
+          last_name: 'Paul',
+          phoneNumber: '09087653462',
+          password: 'password',
+          email: 'tammddfy@example.com',
+          address: '20 Ibuku Street, Lagos',
+          is_admin: true,
+        })
         .expect(201);
       expect(res.statusCode).toEqual(201);
       expect(res.body.status).toEqual('success');
@@ -34,7 +33,15 @@ describe('POST /auth/signup', () => {
     try {
       const res = await request(app)
         .post(`${baseUrl}/signup`)
-        .send(user)
+        .send({
+          first_name: 'John',
+          last_name: 'Paul',
+          phoneNumber: '09087653462',
+          password: 'password',
+          email: 'tammddfy@example.com',
+          address: '20 Ibuku Street, Lagos',
+          is_admin: true,
+        })
         .expect(409);
       expect(res.statusCode).toEqual(409);
       expect(res.body).toEqual({ status: 'error', error: 'User already exists' });

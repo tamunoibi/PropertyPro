@@ -11,7 +11,6 @@ export default class PropertyController {
     } = req.body;
     const status = 'available';
     const owner = res.data.id;
-    console.log(res.data);
 
 
     const property = {
@@ -111,7 +110,6 @@ export default class PropertyController {
     const { propertyId } = req.params;
     try {
       const property = getSingle(propertyId);
-      console.log('TCL: PropertyController -> getSpecificProperty -> propertyId', propertyId);
       if (!property) {
         return res.status(404).json({ status: 'error', error: 'The Property with the given id does not exist' });
       }
