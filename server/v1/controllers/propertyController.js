@@ -11,6 +11,7 @@ export default class PropertyController {
     } = req.body;
     const status = 'available';
     const owner = res.data.id;
+    console.log(res.data);
 
 
     const property = {
@@ -41,7 +42,7 @@ export default class PropertyController {
     } = req.body;
     const existingProperty = getSingle(propertyId);
     if (!existingProperty) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
-    if (existingProperty.id !== res.data.id) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
+    if (existingProperty.owner !== res.data.id) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
 
     const data = {
       type: type || existingProperty.type,
@@ -110,11 +111,10 @@ export default class PropertyController {
     const { propertyId } = req.params;
     try {
       const property = getSingle(propertyId);
-
+      console.log('TCL: PropertyController -> getSpecificProperty -> propertyId', propertyId);
       if (!property) {
         return res.status(404).json({ status: 'error', error: 'The Property with the given id does not exist' });
       }
-
       return res.status(200).json({ status: 'success', data: property });
     } catch (err) {
       return res.status(500).json({ status: 'error', error: 'Internal server error Unable to post new property' });

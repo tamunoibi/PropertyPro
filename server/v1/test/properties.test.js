@@ -67,50 +67,50 @@ describe('Property Test', () => {
         console.log(error);
       }
     });
-    // Start Testing from here
-    it('PATCH /property should create a property', async () => {
-      try {
-        const res = await request(app)
-          .get(`${baseUrl}/property`)
-          .set('token', superUserToken);
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.status).toEqual('success');
-      } catch (error) {
-        console.log(error);
-      }
-    });
-    it('PATCH /property/:propertyId should update property', async () => {
-      try {
-        const res = await request(app)
-          .get(`${baseUrl}/property/10586138425`)
-          .set('token', superUserToken);
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.status).toEqual('success');
-      } catch (error) {
-        console.log(error);
-      }
-    });
-    it('PATCH /property/:propertyId/sold should mark as sold', async () => {
-      try {
-        const res = await request(app)
-          .get(`${baseUrl}/property/10586138425/sold`)
-          .set('token', superUserToken);
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.status).toEqual('success');
-      } catch (error) {
-        console.log(error);
-      }
-    });
-    it('DELETE /property/:propertyId should delete property', async () => {
-      try {
-        const res = await request(app)
-          .delete(`${baseUrl}/property/10586138425`)
-          .set('token', superUserToken);
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.status).toEqual('success');
-      } catch (error) {
-        console.log(error);
-      }
-    });
+    // TODO: Start Testing from here
+    // it('PATCH /property should create a property', async () => {
+    //   try {
+    //     const res = await request(app)
+    //       .get(`${baseUrl}/property`)
+    //       .set('token', superUserToken);
+    //     expect(res.statusCode).toEqual(200);
+    //     expect(res.body.status).toEqual('success');
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // });
+    // it('PATCH /property/:propertyId should update property', async () => {
+    //   try {
+    //     const res = await request(app)
+    //       .get(`${baseUrl}/property/10586138425`)
+    //       .set('token', superUserToken);
+    //     expect(res.statusCode).toEqual(200);
+    //     expect(res.body.status).toEqual('success');
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // });
+    // it('PATCH /property/:propertyId/sold should mark as sold', async () => {
+    //   try {
+    //     const res = await request(app)
+    //       .get(`${baseUrl}/property/10586138425/sold`)
+    //       .set('token', superUserToken);
+    //     expect(res.statusCode).toEqual(200);
+    //     expect(res.body.status).toEqual('success');
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // });
+    // it('DELETE /property/:propertyId should delete property', async () => {
+    //   try {
+    //     const res = await request(app)
+    //       .delete(`${baseUrl}/property/10586138425`)
+    //       .set('token', superUserToken);
+    //     expect(res.statusCode).toEqual(200);
+    //     expect(res.body.status).toEqual('success');
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // });
   });
 });

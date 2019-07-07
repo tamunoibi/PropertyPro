@@ -4,15 +4,12 @@ import bodyParser from 'body-parser';
 import debug from 'debug';
 import morgan from 'morgan';
 import expressValidator from 'express-validator';
-import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
-import v1Router from './v1/routes';
 
-const swaggerDocument = YAML.load(`${__dirname}/../swagger.yaml`);
+import router from './routes';
+
 
 // Middleware
 const app = express();
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 const debugIt = debug('app');
 const port = process.env.PORT || 3000;
 app.use(cors());
@@ -27,7 +24,7 @@ app.use(expressValidator());
 app.all('/', (req, res) => {
   res.redirect('/api/v1');
 });
-app.use('/api/v1', v1Router);
+app.use('/api/v1', router);
 
 app.listen(port, () => {
   debugIt(`App started at port ${port}`);

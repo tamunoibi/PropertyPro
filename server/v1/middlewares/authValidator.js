@@ -110,6 +110,7 @@ export default class AuthValidator {
       const decodedToken = decode(token);
       const { id, is_admin } = decodedToken;
 
+
       if (id) {
         const data = {
           id,
@@ -130,11 +131,5 @@ export default class AuthValidator {
       status: 'error',
       error: 'Unauthorized',
     });
-  }
-
-  static isAdmin(req, res, next) {
-    const { is_admin } = res.data;
-    if (!is_admin) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
-    return next();
   }
 }

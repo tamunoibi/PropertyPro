@@ -56,7 +56,7 @@ export default {
       state: 'Lagos State',
       city: 'Yaba',
       address: '20 Ikorodu Road',
-      type: '3-bedroom',
+      type: '3 bedroom',
       created_on: moment(),
       image_url: 'http:cloud',
     },
