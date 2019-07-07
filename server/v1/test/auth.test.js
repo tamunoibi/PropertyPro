@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import request from 'supertest';
 import expect from 'expect';
-import app from '../app';
+import app from '../../app';
 
 request.agent(app.listen());
 

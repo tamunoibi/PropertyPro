@@ -1,24 +1,26 @@
-import express from 'express';
-import PropertyValidator from '../middlewares/propertyValidator';
-import propertyController from '../controllers/propertyController';
-import AuthValidator from '../middlewares/authValidator';
+import { Router } from 'express';
+import PropertyValidator from '../v1/middlewares/propertyValidator';
+import propertyController from '../v1/controllers/propertyController';
 
-const propertyRouter = express.Router();
+const propertyRouter = Router();
 
+// Used for routs that start with /api/v1
+// /api/v1/property is already prepended to the route
+
+const { validateCreateProperty, validateUpdateProperty } = PropertyValidator;
 const {
-  validateCreateProperty, validateUpdateProperty, validateParam,
-} = PropertyValidator;
-const {
-  createProperty, updateProperty, markAsSold, deleteProperty, getAllProperty, getSpecificProperty
+  createProperty, updateProperty, markAsSold, deleteProperty, getAllProperty, getSpecificProperty,
 } = propertyController;
-const { isOwner, checkToken } = AuthValidator;
 
-propertyRouter.post('/', validateCreateProperty, isOwner, createProperty);
-propertyRouter.patch('/:propertyId', validateParam, validateUpdateProperty, isOwner, updateProperty);
-propertyRouter.patch('/:propertyId/sold', validateParam, isOwner, markAsSold);
-propertyRouter.delete('/:propertyId', validateParam, isOwner, deleteProperty);
-propertyRouter.get('/', checkToken, getAllProperty);
-propertyRouter.get('/:propertyId', checkToken, getSpecificProperty);
-// propertyRouter.get('/', isUser, getAllProperty);
+
+// These routes are only available to agents
+propertyRouter.post('/', validateCreateProperty, createProperty);
+propertyRouter.patch('/:propertyId', validateUpdateProperty, updateProperty);
+propertyRouter.patch('/:propertyId/sold', markAsSold);
+propertyRouter.delete('/:propertyId', deleteProperty);
+
+// These routes are only available to a logged in users(that is both an agent and a user)
+propertyRouter.get('/:propertyId', getSpecificProperty);
+propertyRouter.get('/', getAllProperty);
 
 export default propertyRouter;
