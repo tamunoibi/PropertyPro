@@ -9,6 +9,11 @@
   box-sizing: border-box;
 }
 
+.m-16 {
+  margin-left: 16px;
+  margin-bottom: 16px;
+}
+
 html {
   background-color: #f4f5f8;
 }

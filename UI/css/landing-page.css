@@ -11,6 +11,16 @@
   padding: 2em;
 }
 
+.flex-container {
+  display: flex;
+  padding: 2.5em;
+  align-items: center;
+}
+
+.flex-item1 {
+  width: 50%;
+}
+
 body {
   margin: 0;
   font-size: 1.1em;
@@ -25,15 +35,19 @@ body {
   height: auto;
 }
 
+/*
 .grid {
   display: grid;
-  margin-top: 60px;
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas: "section-a section-a section-a section-a" "section-b section-b section-b section-b" "section-c section-c section-c section-c" "section-d section-d section-d section-d" "section-e section-e section-e section-e";
 }
 
 .section-a {
   grid-area: section-a;
+}
+
+.height-display {
+  height: 50vh;
 }
 
 .section-b {
@@ -51,19 +65,46 @@ body {
 
 .section-e {
   grid-area: section-e;
-}
+} */
 
-/*
 .hide {
   display: none;
-} */
+}
+
+/* Header Showcase */
+
+#showcase {
+  min-height: 80vh;
+  color: #fff;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+#showcase .bg-image {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.9) url("../images/architecture-beautiful-exterior-106399.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 80vh;
+  z-index: -1;
+  /* opacity: 0.7; */
+}
+
+#showcase h1 {
+  padding-top: 200px;
+  padding-bottom: 0;
+  font-family: Lato, sans-serif;
+  font-weight: bolder;
+}
+
+.content-wrap {
+  padding: 0 1.5em;
+  width: 100vw;
+  margin: auto;
+}
 
 .content-title {
   font-weight: 400;
-}
-
-footer {
-  height: 100px;
-  color: #ffffff;
-  padding-top: 30px;
 }

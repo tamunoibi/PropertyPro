@@ -19,3 +19,9 @@ body {
     font-family: 'Roboto', sans-serif;
     font-family: 'Lato', sans-serif;
 }
+
+footer {
+    height: 100px;
+    color: #ffffff;
+    padding-top: 10px;
+}
