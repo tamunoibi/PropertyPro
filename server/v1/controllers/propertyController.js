@@ -81,7 +81,7 @@ export default class PropertyController {
     try {
       const { propertyId } = req.params;
       const { id } = res.data;
-      const property = remove(propertyId, id);
+      const property = remove(propertyId, id);b
 
       if (property === 'unauthorized') return res.status(401).send({ status: 'error', error: 'Unauthorized' });
       if (property === undefined) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });

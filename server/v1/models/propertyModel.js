@@ -22,10 +22,12 @@ export default class PropertyModel {
 
   static update(propertyId, data) {
     let property = properties.find(eachProperty => (eachProperty.id === parseInt(propertyId, 10)));
+
     property = {
       ...property,
       ...data,
     };
+    // p
     return property;
   }
 
