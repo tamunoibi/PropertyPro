@@ -1,3 +1,5 @@
+service_name: travis-pro
+repo_token: JZmtkZd5KwLFT6cAAwPjXEqesE7R6FOz5
 plugins:
   duplication:
     enabled: true
