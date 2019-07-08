@@ -21,13 +21,15 @@ export default class PropertyModel {
   }
 
   static update(propertyId, data) {
-    let property = properties.find(eachProperty => (eachProperty.id === parseInt(propertyId, 10)));
+    const index = properties.findIndex(eachProperty => (eachProperty.id === parseInt(propertyId, 10)));
 
+    let property = properties[index];
     property = {
-      ...property,
+      ...properties[index],
       ...data,
     };
-    // p
+    properties[index] = property;
+    // console.log({ property, theOther: properties[index] });
     return property;
   }
 
