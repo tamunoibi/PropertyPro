@@ -1,3 +1,5 @@
+// TODO: Query how do I simulate 500 internal server error
+
 /* eslint-env mocha */
 import 'babel-polyfill';
 import request from 'supertest';
@@ -79,6 +81,30 @@ describe('Property Test', () => {
       expect(res.statusCode).toEqual(201);
       expect(res.body.status).toEqual('success');
     });
+    // TODO: Add fix this test cases
+    // it('POST /property/:propertyId should return 400 required fields missing', async () => {
+    //   const res = await request(app)
+    //     .post(`${baseUrl}/property/10586138425`)
+    //     .set('token', superUserToken);
+    //   expect(res.statusCode).toEqual(400);
+    //   expect(res.body.status).toEqual('error');
+    // });
+    // it('POST /property/:propertyId should return 401', async () => {
+    //   const res = await request(app)
+    //     .post(`${baseUrl}/property/10586138425`)
+    //     .set('token', superUserToken);
+    //   expect(res.statusCode).toEqual(401);
+    //   expect(res.body.status).toEqual('error');
+    // });
+    // it('POST /property/:propertyId should return 404', async () => {
+    //   const res = await request(app)
+    //     .post(`${baseUrl}/property/10586138425`)
+    //     .set('token', superUserToken);
+    //   expect(res.statusCode).toEqual(404);
+    //   expect(res.body.status).toEqual('error');
+    // });
+
+
     it('PATCH /property/:propertyId should update property', async () => {
       const res = await request(app)
         .get(`${baseUrl}/property/10586138425`)
@@ -86,6 +112,23 @@ describe('Property Test', () => {
       expect(res.statusCode).toEqual(200);
       expect(res.body.status).toEqual('success');
     });
+    // TODO: Add fix this test cases
+    // it('PATCH /property/:propertyId should return 401', async () => {
+    //   const res = await request(app)
+    //     .patch(`${baseUrl}/property/10586138425`)
+    //     .set('token', superUserToken);
+    //   expect(res.statusCode).toEqual(401);
+    //   expect(res.body.status).toEqual('error');
+    // });
+    // it('PATCH /property/:propertyId should return 404', async () => {
+    //   const res = await request(app)
+    //     .patch(`${baseUrl}/property/10586138425`)
+    //     .set('token', superUserToken);
+    //   expect(res.statusCode).toEqual(404);
+    //   expect(res.body.status).toEqual('error');
+    // });
+
+
     it('PATCH /property/:propertyId/sold should mark as sold', async () => {
       const res = await request(app)
         .patch(`${baseUrl}/property/10586138425/sold`)
@@ -93,6 +136,23 @@ describe('Property Test', () => {
       expect(res.statusCode).toEqual(200);
       expect(res.body.status).toEqual('success');
     });
+    // TODO: Add fix this test cases
+    // it('PATCH /property/:propertyId/sold should return 401', async () => {
+    //   const res = await request(app)
+    //     .patch(`${baseUrl}/property/10586138425/sold`)
+    //     .set('token', superUserToken);
+    //   expect(res.statusCode).toEqual(401);
+    //   expect(res.body.status).toEqual('error');
+    // });
+    // it('PATCH /property/:propertyId should return 404', async () => {
+    //   const res = await request(app)
+    //     .patch(`${baseUrl}/property/10586138425/sold`)
+    //     .set('token', superUserToken);
+    //   expect(res.statusCode).toEqual(404);
+    //   expect(res.body.status).toEqual('error');
+    // });
+
+
     it('DELETE /property/:propertyId should delete property', async () => {
       const res = await request(app)
         .delete(`${baseUrl}/property/10586138425`)
@@ -108,6 +168,14 @@ describe('Property Test', () => {
       expect(res.body.status).toEqual('error');
     });
     // TODO: start adding tests from here
+    // it('DELETE /property/:rubbishId should return 404', async () => {
+    //   const res = await request(app)
+    //     .delete(`${baseUrl}/property`)
+    //     .set('token', superUserToken);
+    //   expect(res.statusCode).toEqual(404);
+    //   expect(res.body.status).toEqual('error');
+    // });
+    // TODO: test for queryParams that are not numbers: find out if u should check
     // it('DELETE /property/:rubbishId should return 404', async () => {
     //   const res = await request(app)
     //     .delete(`${baseUrl}/property`)

@@ -1,4 +1,5 @@
 # TODO: add examples to the swagger files. So you can click try it out and run the code.
+# TODO: make sure all the docs responses mathc what is expected.
 swagger: '2.0'
 info:
   version: '1.0'
@@ -70,8 +71,14 @@ paths:
         description: 'role the user'
 
       responses:
-        200:
+        201:
           description: 'Signup successful'
+          headers: {}
+        400:
+          description: 'Required feild missing'
+          headers: {}
+        409:
+          description: 'Uer already exists'
           headers: {}
   /auth/login:
     post:
