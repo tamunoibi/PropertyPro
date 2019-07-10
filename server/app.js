@@ -10,7 +10,7 @@ import router from './routes';
 
 // Middleware
 const app = express();
-const debugIt = debug('app');
+const debugIt = debug('dev:app');
 const port = process.env.PORT || 4000;
 app.use(cors());
 app.options('*', cors());

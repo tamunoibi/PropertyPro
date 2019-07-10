@@ -1,3 +1,4 @@
+# TODO: add examples to the swagger files. So you can click try it out and run the code.
 swagger: '2.0'
 info:
   version: '1.0'

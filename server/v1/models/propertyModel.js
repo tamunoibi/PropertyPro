@@ -29,7 +29,6 @@ export default class PropertyModel {
       ...data,
     };
     properties[index] = property;
-    // console.log({ property, theOther: properties[index] });
     return property;
   }
 
