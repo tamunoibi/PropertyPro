@@ -1,7 +1,7 @@
 import PropertyModel from '../models/propertyModel';
 
 const {
-  create, update, updateStatus, remove, getAll, getSingle,
+  create, update, remove, getAll, getSingle,
 } = PropertyModel;
 
 export default class PropertyController {
@@ -61,19 +61,15 @@ export default class PropertyController {
   }
 
   static markAsSold(req, res) {
-    let property;
-
     try {
-      property = updateStatus(req, res);
-      return res.status(200).json({
-        status: 'success',
-        data: property,
-      });
+      const { propertyId } = req.params;
+      const existingProperty = getSingle(propertyId);
+      if (!existingProperty) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
+      if (existingProperty.owner !== res.data.id) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
+      const property = update(propertyId, { status: 'sold' });
+      return res.status(200).json({ status: 'success', data: property });
     } catch (err) {
-      return res.status(500).json({
-        status: 'error',
-        error: 'Internal server error Unable to modify property',
-      });
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to modify property' });
     }
   }
 
@@ -81,7 +77,7 @@ export default class PropertyController {
     try {
       const { propertyId } = req.params;
       const { id } = res.data;
-      const property = remove(propertyId, id);b
+      const property = remove(propertyId, id);
 
       if (property === 'unauthorized') return res.status(401).send({ status: 'error', error: 'Unauthorized' });
       if (property === undefined) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
@@ -94,7 +90,6 @@ export default class PropertyController {
   static getAllProperty(req, res) {
     const { type } = req.query;
     let property;
-
 
     try {
       property = type ? getAll(type) : getAll();
@@ -110,9 +105,7 @@ export default class PropertyController {
     const { propertyId } = req.params;
     try {
       const property = getSingle(propertyId);
-      if (!property) {
-        return res.status(404).json({ status: 'error', error: 'The Property with the given id does not exist' });
-      }
+      if (!property) return res.status(404).json({ status: 'error', error: 'The Property with the given id does not exist' });
       return res.status(200).json({ status: 'success', data: property });
     } catch (err) {
       return res.status(500).json({ status: 'error', error: 'Internal server error Unable to post new property' });

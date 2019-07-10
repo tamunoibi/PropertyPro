@@ -64,17 +64,6 @@ export default class AuthValidator {
     return next();
   }
 
-  static async userExists(req, res, next) {
-    const { email } = req.body;
-    const user = await getUser(email);
-    if (user) {
-      return res
-        .status(409)
-        .json({ status: 'error', error: 'User already exists' });
-    }
-    return next();
-  }
-
   static validateLogin(req, res, next) {
     req
       .check('email', 'Email is required')
@@ -101,12 +90,8 @@ export default class AuthValidator {
     const token = req.body.token || req.headers.token;
 
     try {
-      if (validate.isEmpty(token)) {
-        return res.status(401).send({
-          status: 'error',
-          error: 'Unauthorized',
-        });
-      }
+      if (validate.isEmpty(token)) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
+
       const decodedToken = decode(token);
       const { id, is_admin } = decodedToken;
 

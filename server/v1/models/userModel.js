@@ -1,7 +1,15 @@
 import passwordHash from 'password-hash';
+import moment from 'moment';
+
+import randomNumber from 'random-number';
 import dummyData from './dummyData';
 
 const { users } = dummyData;
+const options = {
+  min: 9874316514,
+  max: 18743165140,
+  integer: true,
+};
 
 export default class UserModel {
   static getUser(email) {
@@ -9,43 +17,16 @@ export default class UserModel {
     return user;
   }
 
-  static create(req, res) {
-    const {
-      email,
-      first_name,
-      last_name,
-      password,
-      phoneNumber,
-      address,
-      is_admin,
-    } = req.body;
-    const hashedpassword = passwordHash.generate(password);
-
-    const user = {
-      id: users.length + 1,
-      email,
-      first_name,
-      last_name,
-      phoneNumber,
-      address,
-      password: hashedpassword,
-      is_admin,
+  static create(data) {
+    const { password, ...userDetails } = data;
+    const hashedPassword = passwordHash.generate(password);
+    const model = {
+      id: randomNumber(options),
+      password: hashedPassword,
+      ...userDetails,
+      created_on: moment(),
     };
-
-    try {
-      users.push(user);
-      const { id } = user;
-      const userDetails = {
-        id,
-        first_name,
-        last_name,
-        email,
-      };
-      return userDetails;
-    } catch (err) {
-      return res
-        .status(500)
-        .json({ error: true, message: 'Internal Server error' });
-    }
+    users.push(model);
+    return model;
   }
 }
