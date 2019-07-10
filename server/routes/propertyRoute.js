@@ -17,6 +17,12 @@ const {
 propertyRouter.post('/', validateCreateProperty, createProperty);
 propertyRouter.patch('/:propertyId', validateUpdateProperty, updateProperty);
 propertyRouter.patch('/:propertyId/sold', markAsSold);
+// TODO: improve the validation on this route
+// A request body like:
+// {
+//   "somedat": 2000.00
+// }
+// would sail through.
 propertyRouter.delete('/:propertyId', deleteProperty);
 
 // These routes are only available to a logged in users(that is both an agent and a user)
