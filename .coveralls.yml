@@ -1,6 +1,13 @@
+repo_token: JZmtkZd5KwLFT6cAAwPjXEqesE7R6FOz5
 exclude_paths:
   - "node_modules"
   - "UI"
+exclude_patterns:
+  - node_modules/
+  - src/config/
+  - src/controllers/
+  - src/helpers/
+  - tests/
 checks:
   return-statements:
     enabled: false
