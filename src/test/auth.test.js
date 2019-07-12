@@ -2,12 +2,14 @@
 import 'babel-polyfill';
 import request from 'supertest';
 import expect from 'expect';
+// import Authenticator from '../helpers/Authenticator';
 import app from '../../app';
 
 request.agent(app.listen());
-
+// const { decode } = Authenticator;
 const baseUrl = '/api/v1/auth/';
 
+let superUserToken;
 describe('POST /auth/signup', () => {
   it('should respond with status 201', async () => {
     const res = await request(app)
