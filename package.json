@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon src/app.js --exec babel-node --presets babel-preset-env",
     "dev": "set DEBUG=dev:* & nodemon src/app.js --exec babel-node --presets babel-preset-env",
     "test": "set NODE_ENV=test & set DEBUG=dev:* & nyc mocha src/v1/test/**/*.test.js --timeout 30000 --exit",
-    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
