@@ -4,18 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node server/app.js",
-    "dev": "set DEBUG=dev & nodemon server/app.js --exec babel-node --presets babel-preset-env",
-    "test": "set DEBUG=dev:* & cross-env NODE_ENV=test nyc mocha ./server/v1/test/**/*.test.js --timeout 30000 --exit",
-    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test"
+    "dev": "set DEBUG=dev:* & nodemon src/app.js --exec babel-node --presets babel-preset-env",
+    "test": "set NODE_ENV=test & set DEBUG=dev:* & nyc mocha src/v1/test/**/*.test.js --timeout 30000 --exit",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/girlking/PropertyPro.git"
   },
   "keywords": [
-    "node",
-    "express"
+    "ES6",
+    "Nodejs",
+    "API",
+    "RESTFUL",
+    "TDD",
+    "Andela"
   ],
   "author": "Aprekuma Tamunoibi",
   "license": "ISC",
@@ -24,9 +27,6 @@
   },
   "homepage": "https://github.com/girlking/PropertyPro#readme",
   "dependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/polyfill": "^7.4.4",
-    "@babel/register": "^7.4.4",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
@@ -77,6 +77,9 @@
     "nyc": "^14.1.1",
     "sync-dotenv": "^2.0.2"
   },
+  "engines": {
+    "node": "8.7.0"
+  },
   "nyc": {
     "require": [
       "babel-register",
@@ -85,9 +88,6 @@
     "reporter": [
       "lcov",
       "text"
-    ],
-    "plugins": [
-      "istanbul"
     ],
     "sourceMap": false,
     "instrument": false

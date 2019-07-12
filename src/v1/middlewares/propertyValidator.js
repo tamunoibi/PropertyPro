@@ -1,4 +1,5 @@
 import helpers from '../helpers/Helpers';
+// import { cloudinaryDelete } from '../config/cloudinaryConfig';
 
 const { extractErrors } = helpers;
 
@@ -135,4 +136,14 @@ export default class PropertyValidator {
     }
     return next();
   }
+
+  // static validateImage(req, res, next) {
+  //   const { files, file, typeError } = req;
+  //   const images = files || file;
+  //   if (typeError) {
+  //     images.forEach(image => cloudinaryDelete(image.public_id));
+  //     return res.status(403).send({ error: typeError });
+  //   }
+  //   return next();
+  // }
 }

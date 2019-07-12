@@ -1,10 +1,8 @@
 import validate from 'validate.js';
 import Helpers from '../helpers/Helpers';
 import authentication from '../helpers/Authenticator';
-import userModel from '../models/userModel';
 
 const { extractErrors } = Helpers;
-const { getUser } = userModel;
 const { decode } = authentication;
 
 
