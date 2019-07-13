@@ -6,24 +6,24 @@ import multer from 'multer';
 dotenv.config();
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const storage = cloudinaryStorage({
   cloudinary,
-  folder: 'Questioner',
+  folder: 'PropertyProLite',
   allowedFormats: ['jpg', 'png', 'jpeg'],
 });
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (req, file, callback) => {
   // accept image only
   if (!file.originalname.match(/\.(jpg|jpeg|png|JPG|PNG|JPEG)$/)) {
     req.typeError = 'Only jpeg or png images are allowed!';
-    return cb(undefined, false);
+    return callback(undefined, false);
   }
-  return cb(undefined, true);
+  return callback(undefined, true);
 };
 
 const cloudinaryUpload = multer({ storage, fileFilter });

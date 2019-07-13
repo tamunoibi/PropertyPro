@@ -1,5 +1,7 @@
 {
-  "presets": ["env"],
+  "presets": [
+    "env"
+  ],
   "plugins": [
     "transform-class-properties",
     "transform-object-rest-spread",
@@ -15,7 +17,9 @@
   "retainLines": true,
   "env": {
     "test": {
-      "plugins": [["istanbul"]]
+      "plugins": [
+        "istanbul"
+      ]
     }
   }
 }

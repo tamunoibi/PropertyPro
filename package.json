@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/app.js --exec babel-node --presets babel-preset-env",
     "dev": "set DEBUG=dev:* & nodemon src/app.js --exec babel-node --presets babel-preset-env",
-    "test": "cross-env NODE_ENV=test & set NODE_ENV=test & set DEBUG=dev:* & nyc mocha src/v1/test/**/*.test.js --timeout 30000 --exit",
+    "test": "cross-env NODE_ENV=test & set DEBUG=dev:* & nyc --reporter=lcov nyc mocha src/v1/test/**/*.test.js --timeout 30000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {

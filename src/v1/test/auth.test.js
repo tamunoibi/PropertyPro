@@ -11,6 +11,7 @@ const baseUrl = '/api/v1/auth/';
 
 let superUserToken;
 describe('POST /auth/signup', () => {
+  console.log({ test: typeof process.env.NODE_ENV });
   it('should respond with status 201', async () => {
     const res = await request(app)
       .post(`${baseUrl}/signup`)
