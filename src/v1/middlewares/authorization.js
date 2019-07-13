@@ -34,7 +34,6 @@ export const isSignedIn = (req, res, next) => {
 
 export const isAdmin = (req, res, next) => {
   const { isAdmin: admin } = req.data;
-
   if (admin) return next();
   return res.status(401).send({
     status: 'error',

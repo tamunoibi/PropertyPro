@@ -11,14 +11,13 @@ const baseUrl = '/api/v1/auth/';
 
 let superUserToken;
 describe('POST /auth/signup', () => {
-  console.log({ test: typeof process.env.NODE_ENV });
   it('should respond with status 201', async () => {
     const res = await request(app)
       .post(`${baseUrl}/signup`)
       .send({
         first_name: 'John',
         last_name: 'Paul',
-        phoneNumber: '09087653462',
+        phone_number: '09087653462',
         password: 'password',
         email: 'tammddfy@example.com',
         address: '20 Ibuku Street, Lagos',
@@ -34,7 +33,7 @@ describe('POST /auth/signup', () => {
       .send({
         first_name: 'John',
         last_name: 'Paul',
-        phoneNumber: '09087653462',
+        phone_number: '09087653462',
         password: 'password',
         email: 'tammddfy@example.com',
         address: '20 Ibuku Street, Lagos',
