@@ -10,9 +10,7 @@ export default class PropertyController {
       type, price, state, city, address, image_url,
     } = req.body;
     const status = 'available';
-    const { is_admin, id: owner } = res.data;
-    if (!is_admin) return res.status(401).json({ status: 'error', error: "You don't have permission to perform this operation" });
-
+    const { id: owner } = req.data;
     const property = {
       owner,
       status,
@@ -39,9 +37,10 @@ export default class PropertyController {
     const {
       type, price, state, city, address, image_url,
     } = req.body;
+
     const existingProperty = getSingle(propertyId);
     if (!existingProperty) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
-    if (existingProperty.owner !== res.data.id) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
+    if (existingProperty.owner !== req.data.id) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
 
     const data = {
       type: type || existingProperty.type,
@@ -65,7 +64,7 @@ export default class PropertyController {
       const { propertyId } = req.params;
       const existingProperty = getSingle(propertyId);
       if (!existingProperty) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
-      if (existingProperty.owner !== res.data.id) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
+      if (existingProperty.owner !== req.data.id) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
       const property = update(propertyId, { status: 'sold' });
       return res.status(200).json({ status: 'success', data: property });
     } catch (err) {
@@ -76,7 +75,7 @@ export default class PropertyController {
   static deleteProperty(req, res) {
     try {
       const { propertyId } = req.params;
-      const { id } = res.data;
+      const { id } = req.data;
       const property = remove(propertyId, id);
 
       if (property === 'unauthorized') return res.status(401).send({ status: 'error', error: 'Unauthorized' });
@@ -111,26 +110,4 @@ export default class PropertyController {
       return res.status(500).json({ status: 'error', error: 'Internal server error Unable to post new property' });
     }
   }
-
-  // TODO
-  // static async propertyImage(req, res) {
-  //   const client = await pool.connect();
-  //   try {
-  //     const { files, file } = req;
-  //     const images = files || file;
-  //   const { is_admin, id: owner } = res.data;
-  //   const { is_admin } = decodedToken;
-  //     if (is_admin) {
-  //       const imageArray = [];
-  //       images.forEach(image => imageArray.push(image.secure_url));
-  //   const { propertyId } = req.params;
-  //       const addImageQuery = { text: 'UPDATE meetups SET images = $1 WHERE id = $2 RETURNING *', values: [imageArray, id] };
-  //       const tagsResult = await client.query(addImageQuery);
-  //       const { rowCount, rows } = tagsResult;
-  //       if (rowCount === 1) { return res.status(201).send({ status: 201, data: rows, message: 'Images was added successfully' }); }
-  //       images.forEach(image => cloudinaryDelete(image.public_id));
-  //       return res.status(404).send({ status: 404, error: 'Property not found' });
-  //     } return res.status(401).send({ status: 401, error: 'Only an admin can add images to a meetup' });
-  //   } catch (err) { return res.status(500).send({ status: 500, error: 'Internal server error' }); } finally { await client.release(); }
-  // }
 }

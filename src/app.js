@@ -1,7 +1,3 @@
-if (process.env.NODE_ENV == 'test') {
-  console.log('how are you we are eqyla');
-}
-console.log('how are you');
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -9,13 +5,13 @@ import debug from 'debug';
 import morgan from 'morgan';
 import expressValidator from 'express-validator';
 
-import router from './routes';
+import router from './v1/routes';
 
 
 // Middleware
 const app = express();
 const debugIt = debug('dev:app');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 app.use(cors());
 app.options('*', cors());
 app.use(morgan('tiny'));
@@ -29,6 +25,7 @@ app.all('/', (req, res) => {
   res.redirect('/api/v1');
 });
 app.use('/api/v1', router);
+
 
 app.listen(port, () => {
   debugIt(`App started at port ${port}`);

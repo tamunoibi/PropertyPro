@@ -135,6 +135,7 @@ describe('Property Test', () => {
         .set('token', superUserToken);
       expect(res.statusCode).toEqual(200);
       expect(res.body.status).toEqual('success');
+      expect(res.body.data.status).toEqual('sold');
     });
     // TODO: Add fix this test cases
     // it('PATCH /property/:propertyId/sold should return 401', async () => {

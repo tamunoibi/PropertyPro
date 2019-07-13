@@ -34,7 +34,7 @@ export default class AuthValidator {
       .isLength({ min: 6 })
       .withMessage('password cannot be less then 6 characters');
     req
-      .check('phoneNumber', 'The phone number is required')
+      .check('phone_number', 'The phone number is required')
       .notEmpty()
       .trim()
       .isLength({ min: 11 })
@@ -99,7 +99,7 @@ export default class AuthValidator {
           id,
           is_admin,
         };
-        res.data = data;
+        req.data = data;
 
         return next();
       }

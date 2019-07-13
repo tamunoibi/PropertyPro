@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import AuthValidator from '../v1/middlewares/authValidator';
-import userController from '../v1/controllers/userController';
+import AuthValidator from '../middlewares/authValidator';
+import userController from '../controllers/userController';
 
 // Used for routs that start with /api/v1
 // /api/v1/property is already prepended to the route

@@ -4,10 +4,9 @@ exclude_paths:
   - "UI"
 exclude_patterns:
   - node_modules/
-  - src/config/
-  - src/controllers/
-  - src/helpers/
-  - tests/
+  - src/v1/config/
+  - src/v1/helpers/
+  - src/v1/tests/
 checks:
   return-statements:
     enabled: false
