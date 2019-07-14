@@ -32,11 +32,11 @@ export default class PropertyModel {
     return property;
   }
 
-  static remove(propertyId, id) {
+  static remove(propertyId) {
     let property;
     properties.forEach((eachProperty, index) => {
       if (eachProperty.id === parseInt(propertyId, 10)) {
-        property = eachProperty.owner === id ? properties.splice(index, 1) : 'unauthorized';
+        property = properties.splice(index, 1);
       }
     });
     return property;

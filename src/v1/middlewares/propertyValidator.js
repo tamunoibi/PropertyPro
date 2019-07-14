@@ -2,6 +2,7 @@ import helpers from '../helpers/Helpers';
 
 const { extractErrors } = helpers;
 
+
 export default class PropertyValidator {
   static validateCreateProperty(req, res, next) {
     req
@@ -129,8 +130,8 @@ export default class PropertyValidator {
     const errors = req.validationErrors();
     if (errors) {
       return res.status(400).json({
-        status: 400,
-        errors: helpers.extractErrors(errors),
+        status: 'error',
+        error: helpers.extractErrors(errors),
       });
     }
     return next();

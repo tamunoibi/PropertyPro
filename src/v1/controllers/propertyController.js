@@ -76,11 +76,14 @@ export default class PropertyController {
     try {
       const { propertyId } = req.params;
       const { id } = req.data;
-      const property = remove(propertyId, id);
+      const existingProperty = getSingle(propertyId);
+      if (!existingProperty) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
+      if (existingProperty.owner !== id) return res.status(401).send({ status: 'error', error: 'Unauthorized, You do not have permission to perform this operation' });
 
-      if (property === 'unauthorized') return res.status(401).send({ status: 'error', error: 'Unauthorized' });
-      if (property === undefined) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
-      return res.status(200).send({ status: 'success', data: 'Property successfully deleted' });
+      const property = remove(propertyId);
+
+      if (!property) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
+      return res.status(200).send({ status: 'success', data: { message: 'Property successfully deleted' } });
     } catch (err) {
       return res.status(500).json({ status: 'error', error: 'Internal server error Unable to create new Bank account' });
     }

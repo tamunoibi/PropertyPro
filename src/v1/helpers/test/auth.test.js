@@ -17,7 +17,7 @@ describe('POST /auth/signup', () => {
       .send({
         first_name: 'John',
         last_name: 'Paul',
-        phoneNumber: '09087653462',
+        phone_number: '09087653462',
         password: 'password',
         email: 'tammddfy@example.com',
         address: '20 Ibuku Street, Lagos',
@@ -33,7 +33,7 @@ describe('POST /auth/signup', () => {
       .send({
         first_name: 'John',
         last_name: 'Paul',
-        phoneNumber: '09087653462',
+        phone_number: '09087653462',
         password: 'password',
         email: 'tammddfy@example.com',
         address: '20 Ibuku Street, Lagos',

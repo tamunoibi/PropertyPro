@@ -2,14 +2,11 @@
 import 'babel-polyfill';
 import request from 'supertest';
 import expect from 'expect';
-// import Authenticator from '../helpers/Authenticator';
 import app from '../../app';
 
 request.agent(app.listen());
-// const { decode } = Authenticator;
 const baseUrl = '/api/v1/auth/';
 
-let superUserToken;
 describe('POST /auth/signup', () => {
   it('should respond with status 201', async () => {
     const res = await request(app)
@@ -27,6 +24,16 @@ describe('POST /auth/signup', () => {
     expect(res.statusCode).toEqual(201);
     expect(res.body.status).toEqual('success');
   });
+  it('should respond with 400 required fields missing', async () => {
+    const res = await request(app)
+      .post(`${baseUrl}/signup`)
+      .send({
+        first_name: 'John',
+      })
+      .expect(400);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.status).toEqual('error');
+  });
   it('should respond with 409 and message user already exists', async () => {
     const res = await request(app)
       .post(`${baseUrl}/signup`)
@@ -41,7 +48,7 @@ describe('POST /auth/signup', () => {
       })
       .expect(409);
     expect(res.statusCode).toEqual(409);
-    expect(res.body).toEqual({ status: 'error', error: 'User already exists' });
+    expect(res.body.status).toEqual('error');
   });
 });
 describe('POST /auth/signin', () => {
@@ -62,7 +69,7 @@ describe('POST /auth/signin', () => {
       })
       .expect(401);
     expect(res.statusCode).toEqual(401);
-    expect(res.body.error).toEqual('Invalid username or password');
+    expect(res.body.status).toEqual('error');
   });
   it('should respond with 401 and error Invalid username or password', async () => {
     const res = await request(app)
@@ -73,7 +80,7 @@ describe('POST /auth/signin', () => {
       })
       .expect(401);
     expect(res.statusCode).toEqual(401);
-    expect(res.body.error).toEqual('Invalid username or password');
+    expect(res.body.status).toEqual('error');
   });
   it('should respond with 401 unauthorized', async () => {
     const res = await request(app)
@@ -81,6 +88,6 @@ describe('POST /auth/signin', () => {
       .send({ email: 'nonExistentEmail@yahoo.com', password: 'nonExistentPassword' })
       .expect(401);
     expect(res.statusCode).toEqual(401);
-    expect(res.body.error).toEqual('Invalid username or password');
+    expect(res.body.status).toEqual('error');
   });
 });

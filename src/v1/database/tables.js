@@ -1,0 +1,41 @@
+const users = `CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  phone_number VARCHAR(15) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  is_admin BOOLEAN DEFAULT false,
+  createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )`;
+
+// TODO: Make sure you are using the proper type for money
+const properties = `CREATE TABLE IF NOT EXISTS properties(
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  price INTEGER NOT NULL,
+  state VARCHAR(30),
+  city VARCHAR(30),
+  address VARCHAR(100),
+  image_url VARCHAR(200),
+  createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`;
+
+const flags = `CREATE TABLE IF NOT EXISTS flags(
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  reason VARCHAR(100) NOT NULL,
+  description VARCHAR(200),
+  createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`;
+
+
+export default {
+  users,
+  flags,
+  properties,
+};
