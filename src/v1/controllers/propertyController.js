@@ -34,6 +34,40 @@ export default class PropertyController {
   }
 
 
+  static async getAllProperty(req, res) {
+    const client = await pool.connect();
+    try {
+      const { type } = req.query;
+      const getAllQuery = `SELECT
+                            properties.*,
+                            users.phone_number as owner_phone_number, users.email as owner_email
+                            FROM properties
+                            INNER JOIN users
+                            ON properties.owner = users.id`;
+      const getTypeQuery = {
+        text: `SELECT
+                properties.*,
+                users.phone_number as owner_phone_number, users.email as owner_email
+          FROM properties
+          INNER JOIN users
+          ON properties.owner = users.id
+          WHERE type = $1`,
+        values: [type],
+      };
+      const query = type ? getTypeQuery : getAllQuery;
+      const { rows, rowCount } = await client.query(query);
+      if (rowCount) {
+        const { owner, ...data } = rows;
+        return res.status(200).send({ status: 'success', data });
+      }
+      return res.status(404).send({ status: 'error', error: 'No property found' });
+    } catch (err) {
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to get all properties' });
+    } finally {
+      await client.release();
+    }
+  }
+
   static async getSpecificProperty(req, res) {
     const client = await pool.connect();
 
