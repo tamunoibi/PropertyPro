@@ -89,4 +89,28 @@ export default class PropertyController {
       await client.release();
     }
   }
+
+
+  static async deleteProperty(req, res) {
+    const client = await pool.connect();
+
+    try {
+      const { propertyId } = req.params;
+      const { id } = req.data;
+
+      const deletePropertyQuery = {
+        text: 'DELETE FROM properties WHERE owner = $1 AND id = $2',
+        values: [id, propertyId],
+      };
+      const { rowCount } = await client.query(deletePropertyQuery);
+      if (rowCount) {
+        return res.status(200).send({ status: 'success', data: { message: 'Property successfully deleted' } });
+      }
+      return res.status(404).send({ status: 'error', error: 'The Property with the given particulars does not exist' });
+    } catch (err) {
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to delete the property' });
+    } finally {
+      await client.release();
+    }
+  }
 }
