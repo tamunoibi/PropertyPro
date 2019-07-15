@@ -63,4 +63,28 @@ export default class UserController {
       await client.release();
     }
   }
+
+
+  static async signinUser(req, res) {
+    const client = await pool.connect();
+
+    try {
+      const { email, password } = req.body;
+
+      const user = await UserController.getUser(email);
+      if (!user || !passwordHash.verify(password.trim(), user.password)) {
+        return res.status(401).send({ status: 'error', error: 'Invalid email or password' });
+      }
+
+      const data = await UserController.formatUserResponse(user);
+      return res.status(200).json({
+        status: 'success',
+        data,
+      });
+    } catch (err) {
+      return res.status(500).send({ status: 'error', error: 'Internal server error' });
+    } finally {
+      await client.release();
+    }
+  }
 }
