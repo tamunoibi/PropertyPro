@@ -32,4 +32,27 @@ export default class PropertyController {
       await client.release();
     }
   }
+
+
+  static async getSpecificProperty(req, res) {
+    const client = await pool.connect();
+
+    try {
+      const { propertyId } = req.params;
+      const getSingleQuery = {
+        text: 'SELECT * FROM properties WHERE id = $1',
+        values: [propertyId],
+      };
+      const { rows, rowCount } = await client.query(getSingleQuery);
+      if (rowCount) {
+        const { owner, ...data } = rows[0];
+        return res.status(200).send({ status: 'success', data });
+      }
+      return res.status(404).send({ status: 'error', error: 'The Property with the given particulars does not exist' });
+    } catch (err) {
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to get the specified property' });
+    } finally {
+      await client.release();
+    }
+  }
 }
