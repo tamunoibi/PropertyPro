@@ -73,14 +73,6 @@ describe('Property Test', () => {
     });
   });
   describe('POST /auth/signin', () => {
-    it('should respond with 200', async () => {
-      const res = await request(app)
-        .post(`${baseUrl}/auth/signin`)
-        .send({ email: 'tammyNew@example.com', password: 'password' })
-        .expect(200);
-      expect(res.statusCode).toEqual(200);
-      expect(res.body.status).toEqual('success');
-    });
     it('should respond with 401 and error Invalid email or password', async () => {
       const res = await request(app)
         .post(`${baseUrl}/auth/signin`)
@@ -109,10 +101,10 @@ describe('Property Test', () => {
     it('signin a user', async () => {
       const res = await request(app)
         .post(`${baseUrl}/auth/signin`)
-        .send({
-          password: 'password',
-          email: 'tammy@example.com',
-        });
+        .send({ email: 'tammy@example.com', password: 'password' })
+        .expect(200);
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.status).toEqual('success');
       superUserToken = res.body.data.token;
     });
   });
