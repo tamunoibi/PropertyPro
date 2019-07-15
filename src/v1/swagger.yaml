@@ -1,5 +1,3 @@
-# TODO: add examples to the swagger files. So you can click try it out and run the code.
-# TODO: make sure all the docs responses mathc what is expected.
 swagger: '2.0'
 info:
   version: '1.0'
@@ -44,7 +42,7 @@ paths:
         required: true
         type: string
         description: 'last name of the user'
-      - name: phoneNumber
+      - name: phone_number
         in: formData
         required: true
         type: string
@@ -75,18 +73,18 @@ paths:
           description: 'Signup successful'
           headers: {}
         400:
-          description: 'Required feild missing'
+          description: 'Required field missing'
           headers: {}
         409:
-          description: 'Uer already exists'
+          description: 'User already exists'
           headers: {}
-  /auth/login:
+  /auth/signin:
     post:
-      description: user can login with proper params
-      summary: 127.0.0.1:4000/api/v1/auth/login
+      description: user can signin with proper params
+      summary: 127.0.0.1:4000/api/v1/auth/signin
       tags:
       - Users
-      operationId: AuthLoginPost
+      operationId: AuthSigninPost
       deprecated: false
       produces:
       - application/json
@@ -110,7 +108,10 @@ paths:
         description: ''
       responses:
         200:
-          description: ''
+          description: 'Signin successful'
+          headers: {}
+        401:
+          description: 'Unauthorized, Invalid email or password'
           headers: {}
   /property:
     post:
@@ -129,7 +130,7 @@ paths:
         in: header
         required: true
         type: string
-        description: ''
+        description: 'Create a property'
       - name: price
         in: formData
         required: true
@@ -161,7 +162,7 @@ paths:
         type: string
         description: 'cloudinary url link to images of the property'
       responses:
-        200:
+        201:
           description: 'Success'
           headers: {}
         400:
@@ -188,10 +189,10 @@ paths:
           description: 'success'
           headers: {}
         404:
-          description: 'No usr found'
+          description: 'No properties yet found'
           headers: {}
         401:
-          description: 'You must log in to continue'
+          description: 'You must signin to continue'
           headers: {}
         500:
           description: 'Internal Server Error'
@@ -212,10 +213,10 @@ paths:
           description: 'success'
           headers: {}
         404:
-          description: 'No usr found'
+          description: 'No property found'
           headers: {}
         401:
-          description: 'You must log in to continue'
+          description: 'You must signin to continue'
           headers: {}
         500:
           description: 'Internal server error'
@@ -235,11 +236,14 @@ paths:
         200:
           description: 'success'
           headers: {}
-        404:
-          description: 'Property does not exist'
+        400:
+          description: 'Validation error, The property Id must be a number'
           headers: {}
         401:
-          description: 'Unauthorized'
+          description: 'Unauthorized, Invalid Token'
+          headers: {}
+        404:
+          description: 'Property does not exist'
           headers: {}
         500:
           description: 'Internal server error'
@@ -259,11 +263,14 @@ paths:
         200:
           description: 'success'
           headers: {}
-        404:
-          description: 'Property not found'
+        400:
+          description: 'Validation error'
           headers: {}
         401:
           description: 'Authorization error'
+          headers: {}
+        404:
+          description: 'Property not found'
           headers: {}
         500:
           description: 'Internal Server Error'
@@ -282,11 +289,14 @@ paths:
         200:
           description: 'success'
           headers: {}
-        404:
-          description: 'Property not found'
-          headers: {}
         401:
           description: 'Authorization error'
+          headers: {}
+        400:
+          description: 'Validation error'
+          headers: {}
+        404:
+          description: 'Property not found'
           headers: {}
         500:
           description: 'Internal Server Error'
@@ -305,11 +315,11 @@ paths:
         200:
           description: 'success'
           headers: {}
-        404:
-          description: 'Property not found'
-          headers: {}
         401:
           description: 'Authorization error'
+          headers: {}
+        404:
+          description: 'Property not found'
           headers: {}
         500:
           description: 'Internal Server Error'

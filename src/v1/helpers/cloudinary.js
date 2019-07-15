@@ -9,4 +9,4 @@
 //   return {next()};
 // };
 
-// export default validateImagse;
+// export default validateImage;

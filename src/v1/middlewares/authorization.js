@@ -8,8 +8,6 @@ export const isSignedIn = (req, res, next) => {
   try {
     const decodedToken = authentication.decode(token);
     const { id, isAdmin } = decodedToken;
-
-
     if (id) {
       const data = {
         id,
@@ -22,7 +20,7 @@ export const isSignedIn = (req, res, next) => {
   } catch (err) {
     return res.status(401).send({
       status: 'error',
-      error: 'Unauthorized',
+      error: 'Unauthorized invalid credentials',
     });
   }
 
