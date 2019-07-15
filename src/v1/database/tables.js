@@ -10,19 +10,19 @@ const users = `CREATE TABLE IF NOT EXISTS users (
   updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   )`;
 
-// TODO: Make sure you are using the proper type for money
 const properties = `CREATE TABLE IF NOT EXISTS properties(
   id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  owner INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  status VARCHAR(10) DEFAULT 'available',
   price INTEGER NOT NULL,
-  state VARCHAR(30),
-  city VARCHAR(30),
-  address VARCHAR(100),
-  image_url VARCHAR(200),
+  state VARCHAR(30) NOT NULL,
+  city VARCHAR(30) NOT NULL,
+  address VARCHAR(100) NOT NULL,
+  type VARCHAR(100) NOT NULL,
+  image_url VARCHAR(200) NOT NULL,
   createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`;
-
 const flags = `CREATE TABLE IF NOT EXISTS flags(
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -31,7 +31,7 @@ const flags = `CREATE TABLE IF NOT EXISTS flags(
   description VARCHAR(200),
   createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)`;
+  )`;
 
 
 export default {
@@ -39,3 +39,7 @@ export default {
   flags,
   properties,
 };
+
+// TODO:
+// updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP
+// add on update attribute to updated on column the current timestamp changes

@@ -7,7 +7,6 @@ const { users, flags, properties } = table;
 const logger = debug('dev:migrate');
 
 logger(process.env.NODE_ENV);
-// const debugger = debug('migration');
 (async function migrate() {
   logger('migrating...');
   const client = await pool.connect();

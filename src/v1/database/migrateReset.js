@@ -12,7 +12,6 @@ const logger = debug('dev:migrateReset');
     await client.query('DROP TABLE IF EXISTS users CASCADE');
     await client.query('DROP TABLE IF EXISTS properties CASCADE');
     await client.query('DROP TABLE IF EXISTS flags CASCADE');
-    await client.query('DROP TABLE IF EXISTS flagsTable CASCADE');
   } catch (err) {
     return;
   } finally {

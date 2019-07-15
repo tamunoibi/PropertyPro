@@ -1,116 +1,171 @@
-import PropertyModel from '../models/propertyModel';
+import pool from '../config/connection';
 
-const {
-  create, update, remove, getAll, getSingle,
-} = PropertyModel;
 
 export default class PropertyController {
-  static createProperty(req, res) {
-    const {
-      type, price, state, city, address, image_url,
-    } = req.body;
-    const status = 'available';
-    const { id: owner } = req.data;
-    const property = {
-      owner,
-      status,
-      price,
-      state,
-      city,
-      address,
-      type,
-      image_url,
-    };
-
+  static async createProperty(req, res) {
+    const client = await pool.connect();
     try {
-      const data = create(property);
-      const { owner: propertyOwner, ...others } = data;
-      return res.status(201).json({ status: 'success', data: others });
+      const {
+        type, price, state, city, address, image_url,
+      } = req.body;
+      const status = 'available';
+      const { id: owner } = req.data;
+
+
+      const property = {
+        owner, status, price, state, city, address, type, image_url,
+      };
+      const columns = Object.keys(property);
+      const values = Object.values(property);
+      const sqlQuery = `INSERT INTO properties(${columns.toString()}) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;`;
+      const { rows, rowCount } = await client.query({ text: sqlQuery, values });
+
+      if (rowCount) {
+        const { owner: propertyOwner, ...data } = rows[0];
+        return res.status(201).json({ status: 'success', data });
+      }
+
+      return res.status(500).json({ status: 'error', error: 'Unable to save property' });
     } catch (err) {
       return res.status(500).json({ status: 'error', error: 'Internal server error Unable to post new property' });
+    } finally {
+      await client.release();
     }
   }
 
-  static updateProperty(req, res) {
-    const { propertyId } = req.params;
-
-    const {
-      type, price, state, city, address, image_url,
-    } = req.body;
-
-    const existingProperty = getSingle(propertyId);
-    if (!existingProperty) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
-    if (existingProperty.owner !== req.data.id) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
-
-    const data = {
-      type: type || existingProperty.type,
-      price: price || existingProperty.price,
-      state: state || existingProperty.state,
-      city: city || existingProperty.city,
-      address: address || existingProperty.address,
-      image_url: image_url || existingProperty.image_url,
-    };
+  static async updateProperty(req, res) {
+    const client = await pool.connect();
     try {
-      const property = update(propertyId, data);
-      const { owner, ...others } = property;
-      return res.status(200).json({ status: 'success', data: others });
-    } catch (err) {
-      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to modify property' });
-    }
-  }
-
-  static markAsSold(req, res) {
-    try {
+      const {
+        price, state, city, address, image_url,
+      } = req.body;
       const { propertyId } = req.params;
-      const existingProperty = getSingle(propertyId);
-      if (!existingProperty) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
-      if (existingProperty.owner !== req.data.id) return res.status(401).send({ status: 'error', error: 'Unauthorized' });
-      const property = update(propertyId, { status: 'sold' });
-      return res.status(200).json({ status: 'success', data: property });
+      const { id } = req.data;
+
+      const updateQuery = {
+        text: `UPDATE properties
+              SET
+                price = COALESCE($1, price),
+                state = COALESCE($2, state),
+                city = COALESCE($3, city),
+                address = COALESCE($4, address),
+                image_url = COALESCE($5, image_url)
+              WHERE owner = $6 AND id = $7  RETURNING *`,
+        values: [price, state, city, address, image_url, id, propertyId],
+      };
+      const { rows, rowCount } = await client.query(updateQuery);
+      if (rowCount) {
+        const { owner, ...data } = rows[0];
+        return res.status(200).send({ status: 'success', data });
+      }
+      return res.status(404).send({ status: 'error', error: 'Property with the given particulars not found' });
     } catch (err) {
-      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to modify property' });
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to update property' });
+    } finally {
+      await client.release();
     }
   }
 
-  static deleteProperty(req, res) {
+  static async markAsSold(req, res) {
+    const client = await pool.connect();
     try {
       const { propertyId } = req.params;
       const { id } = req.data;
-      const existingProperty = getSingle(propertyId);
-      if (!existingProperty) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
-      if (existingProperty.owner !== id) return res.status(401).send({ status: 'error', error: 'Unauthorized, You do not have permission to perform this operation' });
-
-      const property = remove(propertyId);
-
-      if (!property) return res.status(404).send({ status: 'error', error: 'The Property does not exist' });
-      return res.status(200).send({ status: 'success', data: { message: 'Property successfully deleted' } });
+      const status = 'available';
+      const updateQuery = {
+        text: 'UPDATE properties SET status = $1 WHERE owner = $2 AND id = $3  RETURNING *',
+        values: [status, id, propertyId],
+      };
+      const property = await client.query(updateQuery);
+      const { rows, rowCount } = property;
+      if (rowCount) {
+        const { owner, ...data } = rows[0];
+        return res.status(200).send({ status: 'success', data });
+      }
+      return res.status(404).send({ status: 'error', error: 'Property with the given particulars not found' });
     } catch (err) {
-      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to create new Bank account' });
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to mark property as sold' });
+    } finally {
+      await client.release();
     }
   }
 
-  static getAllProperty(req, res) {
-    const { type } = req.query;
-    let property;
-
+  static async getAllProperty(req, res) {
+    const client = await pool.connect();
     try {
-      property = type ? getAll(type) : getAll();
-      if (property.length === 0) return res.status(404).send({ status: 'error', error: 'No property found' });
-
-      return res.status(200).json({ status: 'success', data: property });
+      const { type } = req.query;
+      const getAllQuery = `SELECT
+                            properties.*,
+                            users.phone_number as owner_phone_number, users.email as owner_email
+                            FROM properties
+                            INNER JOIN users
+                            ON properties.owner = users.id`;
+      const getTypeQuery = {
+        text: `SELECT
+                properties.*,
+                users.phone_number as owner_phone_number, users.email as owner_email
+          FROM properties
+          INNER JOIN users
+          ON properties.owner = users.id
+          WHERE type = $1`,
+        values: [type],
+      };
+      const query = type ? getTypeQuery : getAllQuery;
+      const { rows, rowCount } = await client.query(query);
+      if (rowCount) {
+        const { owner, ...data } = rows;
+        return res.status(200).send({ status: 'success', data });
+      }
+      return res.status(404).send({ status: 'error', error: 'No properties yet' });
     } catch (err) {
-      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to post new property' });
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to get all properties' });
+    } finally {
+      await client.release();
     }
   }
 
-  static getSpecificProperty(req, res) {
-    const { propertyId } = req.params;
+  static async getSpecificProperty(req, res) {
+    const client = await pool.connect();
+
     try {
-      const property = getSingle(propertyId);
-      if (!property) return res.status(404).json({ status: 'error', error: 'The Property with the given id does not exist' });
-      return res.status(200).json({ status: 'success', data: property });
+      const { propertyId } = req.params;
+      const getSingleQuery = {
+        text: 'SELECT * FROM properties WHERE id = $1',
+        values: [propertyId],
+      };
+      const { rows, rowCount } = await client.query(getSingleQuery);
+      if (rowCount) {
+        const { owner, ...data } = rows[0];
+        return res.status(200).send({ status: 'success', data });
+      }
+      return res.status(404).send({ status: 'error', error: 'The Property with the given particulars does not exist' });
     } catch (err) {
-      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to post new property' });
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to get the specified property' });
+    } finally {
+      await client.release();
+    }
+  }
+
+  static async deleteProperty(req, res) {
+    const client = await pool.connect();
+
+    try {
+      const { propertyId } = req.params;
+      const { id } = req.data;
+
+      const deletePropertyQuery = {
+        text: 'DELETE FROM properties WHERE owner = $1 AND id = $2',
+        values: [id, propertyId],
+      };
+      const { rowCount } = await client.query(deletePropertyQuery);
+      if (rowCount) {
+        return res.status(200).send({ status: 'success', data: { message: 'Property successfully deleted' } });
+      }
+      return res.status(404).send({ status: 'error', error: 'The Property with the given particulars does not exist' });
+    } catch (err) {
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to delete the property' });
+    } finally {
+      await client.release();
     }
   }
 }

@@ -16,7 +16,7 @@ const populateAgent = `INSERT INTO users(first_name, last_name, phone_number, pa
 const populateProperty = `INSERT INTO properties(price, state, city, address, image_url)
                     VALUES(500000, 'state', 'city', 'address', 'https://res.cloudinary.com/drjpxke9z/image/upload/v1549984207/pdp_nucvwu.jpg')`;
 
-const populateflag = `INSERT INTO parties(user_id, property_id, description)
+const populateflag = `INSERT INTO flags(user_id, property_id, description)
                     VALUES(1, 1, 'reason', 'description')`;
 
 
@@ -33,4 +33,3 @@ const populateflag = `INSERT INTO parties(user_id, property_id, description)
     await client.release();
   }
 }());
-require('make-runnable');

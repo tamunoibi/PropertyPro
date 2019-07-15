@@ -6,8 +6,14 @@
   "scripts": {
     "start": "nodemon src/app.js --exec babel-node --presets babel-preset-env",
     "dev": "set DEBUG=dev:* & nodemon src/app.js --exec babel-node --presets babel-preset-env",
-    "test": "cross-env NODE_ENV=test nyc mocha ./src/v1/test/**/*.test.js --timeout 30000 --exit",
-    "coverage": "nyc report --reporter=text-lcov npm test"
+    "test": "set DEBUG=dev:* & set WINDOWS_NODE_ENV=test & cross-env NODE_ENV=test  & nyc mocha ./src/v1/test/**/*.test.js --timeout 30000 --exit",
+    "coverage": "nyc report --reporter=text-lcov npm test",
+    "migrate:reset": "babel-node src/v1/database/migrateReset.js",
+    "migrate": "babel-node src/v1/database/index.js",
+    "migrate:refresh": "set DEBUG=dev:* & npm run migrate:reset & npm run migrate",
+    "migrate:seed": "set DEBUG=dev:* & babel-node src/v1/database/seed.js",
+    "test:seed": "set DEBUG=dev:* & babel-node src/v1/database/testSeed.js",
+    "pretest": "set DEBUG=dev:* & SET WINDOWS_NODE_ENV=test & npm run migrate:reset & npm run migrate & npm run test:seed"
   },
   "repository": {
     "type": "git",

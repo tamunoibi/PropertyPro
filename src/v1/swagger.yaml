@@ -111,7 +111,7 @@ paths:
           description: 'Signin successful'
           headers: {}
         401:
-          description: 'Unauthorized, Invalid username or password'
+          description: 'Unauthorized, Invalid email or password'
           headers: {}
   /property:
     post:
@@ -189,7 +189,7 @@ paths:
           description: 'success'
           headers: {}
         404:
-          description: 'No usr found'
+          description: 'No properties yet found'
           headers: {}
         401:
           description: 'You must signin to continue'
@@ -213,7 +213,7 @@ paths:
           description: 'success'
           headers: {}
         404:
-          description: 'No user found'
+          description: 'No property found'
           headers: {}
         401:
           description: 'You must signin to continue'

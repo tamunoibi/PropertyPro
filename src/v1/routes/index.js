@@ -8,6 +8,7 @@ import { isSignedIn } from '../middlewares/authorization';
 
 
 const router = Router();
+
 const swaggerDocument = YAML.load(`${__dirname}/../swagger.yaml`);
 
 const { validateParam } = PropertyValidator;

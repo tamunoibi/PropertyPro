@@ -7,16 +7,16 @@ const logger = debug('dev:testSeed');
 
 
 const password = passwordHash.generate('password');
-const agentPassword = passwordHash.generate('admin');
+const agentPassword = passwordHash.generate('password');
 
 const user1 = `INSERT INTO users(first_name, last_name, phone_number, password, email)
-VALUES('Jon', 'Doe', '07035087654', '${password}', 'youMeAll@gmail.com')`;
+VALUES('Jon', 'Doe', '07035087654', '${password}', 'tammyUser@example.com')`;
 
 const agent = `INSERT INTO users(first_name, last_name, phone_number, password, email, is_admin)
-VALUES('Admin', 'Admin', '09035087650', '${agentPassword}', 'helloyou@gmail.com', true)`;
+VALUES('Admin', 'Admin', '09035087650', '${agentPassword}', 'tammy@example.com', true)`;
 
-const property1 = `INSERT INTO properties(price, state, city, address, image_url)
-VALUES(500000, 'state', 'city', 'address', 'https://res.cloudinary.com/drjpxke9z/image/upload/v1549984207/pdp_nucvwu.jpg')`;
+const property1 = `INSERT INTO properties(owner, price, state, city, address, type, image_url)
+VALUES(2, 500000, 'state', 'city', 'address', 'typeOfProperty', 'https://res.cloudinary.com/drjpxke9z/image/upload/v1549984207/pdp_nucvwu.jpg')`;
 
 const flag1 = `INSERT INTO flags(user_id, property_id, reason, description)
 VALUES(1, 1, 'reason' , 'description')`;
