@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { cloudinaryUpload } from '../config/cloudinaryConfig';
 import PropertyValidator from '../middlewares/propertyValidator';
 import propertyController from '../controllers/propertyController';
 import { isAdmin } from '../middlewares/authorization';
@@ -9,8 +8,7 @@ const propertyRouter = Router();
 // Used for routs that start with /api/v1
 // /api/v1/property is already prepended to the route
 
-// const { validateCreateProperty, validateUpdateProperty } = PropertyValidator;
-const { validateCreateProperty, validateUpdateProperty } = PropertyValidator;
+const { validateCreateProperty, validateUpdateProperty, validateParam } = PropertyValidator;
 const {
   createProperty,
   updateProperty,
@@ -18,15 +16,14 @@ const {
   deleteProperty,
   getAllProperty,
   getSpecificProperty,
-  propertyImage,
 } = propertyController;
 
 
 // These routes are only available to agents
 propertyRouter.post('/', isAdmin, validateCreateProperty, createProperty);
-propertyRouter.patch('/:propertyId', isAdmin, validateUpdateProperty, updateProperty);
-propertyRouter.patch('/:propertyId/sold', isAdmin, markAsSold);
-propertyRouter.delete('/:propertyId', isAdmin, deleteProperty);
+propertyRouter.patch('/:propertyId', validateParam, isAdmin, validateUpdateProperty, updateProperty);
+propertyRouter.patch('/:propertyId/sold', validateParam, isAdmin, markAsSold);
+propertyRouter.delete('/:propertyId', validateParam, isAdmin, deleteProperty);
 
 
 // These routes are only available to a logged in users(that is both an agent and a user)
