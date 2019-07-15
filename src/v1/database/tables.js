@@ -1,0 +1,45 @@
+const users = `CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  phone_number VARCHAR(15) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  is_admin BOOLEAN DEFAULT false,
+  createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )`;
+
+const properties = `CREATE TABLE IF NOT EXISTS properties(
+  id SERIAL PRIMARY KEY,
+  owner INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  status VARCHAR(10) DEFAULT 'available',
+  price INTEGER NOT NULL,
+  state VARCHAR(30) NOT NULL,
+  city VARCHAR(30) NOT NULL,
+  address VARCHAR(100) NOT NULL,
+  type VARCHAR(100) NOT NULL,
+  image_url VARCHAR(200) NOT NULL,
+  createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`;
+const flags = `CREATE TABLE IF NOT EXISTS flags(
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  reason VARCHAR(100) NOT NULL,
+  description VARCHAR(200),
+  createdOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )`;
+
+
+export default {
+  users,
+  flags,
+  properties,
+};
+
+// TODO:
+// updatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP
+// add on update attribute to updated on column the current timestamp changes
