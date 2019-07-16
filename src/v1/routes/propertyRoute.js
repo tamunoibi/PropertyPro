@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import PropertyValidator from '../middlewares/propertyValidator';
 import propertyController from '../controllers/propertyController';
-import { isAdmin } from '../middlewares/authorization';
+// import { isAdmin } from '../middlewares/authorization';
 
 const propertyRouter = Router();
 
@@ -20,10 +20,10 @@ const {
 
 
 // These routes are only available to agents
-propertyRouter.post('/', isAdmin, validateProperty, createProperty);
-propertyRouter.patch('/:propertyId', validateParam, isAdmin, validateProperty, updateProperty);
-propertyRouter.patch('/:propertyId/sold', validateParam, isAdmin, markAsSold);
-propertyRouter.delete('/:propertyId', validateParam, isAdmin, deleteProperty);
+propertyRouter.post('/', validateProperty, createProperty);
+propertyRouter.patch('/:propertyId', validateParam, validateProperty, updateProperty);
+propertyRouter.patch('/:propertyId/sold', validateParam, markAsSold);
+propertyRouter.delete('/:propertyId', validateParam, deleteProperty);
 
 
 // These routes are only available to a logged in users(that is both an agent and a user)
