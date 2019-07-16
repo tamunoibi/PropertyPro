@@ -33,6 +33,62 @@ export default class PropertyController {
     }
   }
 
+  static async updateProperty(req, res) {
+    const client = await pool.connect();
+    try {
+      const {
+        price, state, city, address, image_url,
+      } = req.body;
+      const { propertyId } = req.params;
+      const { id } = req.data;
+
+      const updateQuery = {
+        text: `UPDATE properties
+              SET
+                price = COALESCE($1, price),
+                state = COALESCE($2, state),
+                city = COALESCE($3, city),
+                address = COALESCE($4, address),
+                image_url = COALESCE($5, image_url)
+              WHERE owner = $6 AND id = $7  RETURNING *`,
+        values: [price, state, city, address, image_url, id, propertyId],
+      };
+      const { rows, rowCount } = await client.query(updateQuery);
+      if (rowCount) {
+        const { owner, ...data } = rows[0];
+        return res.status(200).send({ status: 'success', data });
+      }
+      return res.status(404).send({ status: 'error', error: 'Property with the given particulars not found' });
+    } catch (err) {
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to update property' });
+    } finally {
+      await client.release();
+    }
+  }
+
+  static async markAsSold(req, res) {
+    const client = await pool.connect();
+    try {
+      const { propertyId } = req.params;
+      const { id } = req.data;
+      const status = 'sold';
+      const updateQuery = {
+        text: 'UPDATE properties SET status = $1 WHERE owner = $2 AND id = $3  RETURNING *',
+        values: [status, id, propertyId],
+      };
+      const property = await client.query(updateQuery);
+      const { rows, rowCount } = property;
+      if (rowCount) {
+        const { owner, ...data } = rows[0];
+        return res.status(200).send({ status: 'success', data });
+      }
+      return res.status(404).send({ status: 'error', error: 'Property with the given particulars not found' });
+    } catch (err) {
+      return res.status(500).json({ status: 'error', error: 'Internal server error Unable to mark property as sold' });
+    } finally {
+      await client.release();
+    }
+  }
 
   static async getAllProperty(req, res) {
     const client = await pool.connect();
@@ -89,7 +145,6 @@ export default class PropertyController {
       await client.release();
     }
   }
-
 
   static async deleteProperty(req, res) {
     const client = await pool.connect();

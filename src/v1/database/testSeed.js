@@ -16,7 +16,7 @@ const agent = `INSERT INTO users(first_name, last_name, phone_number, password, 
 VALUES('Admin', 'Admin', '09035087650', '${agentPassword}', 'tammy@example.com', true)`;
 
 const property1 = `INSERT INTO properties(owner, price, state, city, address, type, image_url)
-VALUES(2, 500000, 'state', 'city', 'address', 'typeOfProperty', 'https://res.cloudinary.com/drjpxke9z/image/upload/v1549984207/pdp_nucvwu.jpg')`;
+VALUES(1, 500000, 'state', 'city', 'address', 'typeOfProperty', 'https://res.cloudinary.com/drjpxke9z/image/upload/v1549984207/pdp_nucvwu.jpg')`;
 
 const flag1 = `INSERT INTO flags(user_id, property_id, reason, description)
 VALUES(1, 1, 'reason' , 'description')`;
