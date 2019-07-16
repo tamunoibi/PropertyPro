@@ -31,6 +31,12 @@ propertyRouter.get('/:propertyId', getSpecificProperty);
 propertyRouter.get('/', getAllProperty);
 
 
+// These routes are only available to agents
+propertyRouter.post('/', createProperty);
+propertyRouter.patch('/:propertyId', updateProperty);
+propertyRouter.patch('/:propertyId/sold', markAsSold);
+propertyRouter.delete('/:propertyId', deleteProperty);
+
 // // These routes are only available to agents
 // propertyRouter.post('/', isAdmin, validateCreateProperty, createProperty);
 // propertyRouter.patch('/:propertyId', validateParam, isAdmin, validateUpdateProperty, updateProperty);
