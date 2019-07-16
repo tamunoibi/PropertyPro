@@ -4,7 +4,7 @@ import debug from 'debug';
 import pool from '../config/connection';
 
 const logger = debug('dev:testSeed');
-
+  
 
 const password = passwordHash.generate('password');
 const agentPassword = passwordHash.generate('admin');

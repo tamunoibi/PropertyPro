@@ -10,6 +10,9 @@ const { createAccount, signinUser } = userController;
 
 const userRouter = Router();
 
+// userRouter.post('/signup', validateSignUp, createAccount);
+// userRouter.post('/signin', validateLogin, signinUser);
+
 userRouter.post('/signup', validateSignUp, createAccount);
 userRouter.post('/signin', validateLogin, signinUser);
 
