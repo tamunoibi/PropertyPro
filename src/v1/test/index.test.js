@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import request from 'supertest';
 import expect from 'expect';
-// import debug from 'debug';
+
 import app from '../../app';
 
 request.agent(app.listen());
@@ -29,7 +29,7 @@ describe('Property Test', () => {
     });
   });
   describe('POST /auth/signup', () => {
-    it('should respond with status 201', async () => {
+    it('Before: signup should respond with status 201', async () => {
       const res = await request(app)
         .post(`${baseUrl}/auth/signup`)
         .send({
@@ -39,13 +39,11 @@ describe('Property Test', () => {
           password: 'password',
           email: 'testEmail@example.com',
           address: '20 Ibuku Street, Lagos',
-          is_admin: true,
         })
         .expect(201);
       expect(res.statusCode).toEqual(201);
       expect(res.status);
       expect(res.body.status).toEqual('success');
-      superUserToken = res.body.data.token;
     });
     it('should respond with 400 required fields missing', async () => {
       const res = await request(app)
@@ -67,11 +65,22 @@ describe('Property Test', () => {
           password: 'password',
           email: 'testEmail@example.com',
           address: '20 Ibuku Street, Lagos',
-          is_admin: true,
         })
         .expect(409);
       expect(res.statusCode).toEqual(409);
       expect(res.body.status).toEqual('error');
+    });
+  });
+  describe('Before: Signin user', () => {
+    it('signin a user', async () => {
+      const res = await request(app)
+        .post(`${baseUrl}/auth/signin`)
+        .send({ email: 'testAgentEmail@example.com', password: 'admin' })
+        .expect(200);
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.status).toEqual('success');
+
+      superUserToken = res.body.data.token;
     });
   });
   describe('POST /auth/signin', () => {
@@ -98,18 +107,8 @@ describe('Property Test', () => {
       expect(res.body.status).toEqual('error');
     });
   });
-  describe('Before', () => {
-    it('signin a user', async () => {
-      const res = await request(app)
-        .post(`${baseUrl}/auth/signin`)
-        .send({ email: 'testEmail@example.com', password: 'password' })
-        .expect(200);
-      expect(res.statusCode).toEqual(200);
-      expect(res.body.status).toEqual('success');
-    });
-  });
   describe('property routes for agents', async () => {
-    it('POST /property should return status 201 and create a property', async () => {
+    it('Before: POST /property should return status 201 and create a property', async () => {
       const res = await request(app)
         .post(`${baseUrl}/property`)
         .set('token', superUserToken)
@@ -119,7 +118,7 @@ describe('Property Test', () => {
           city: 'Yaba',
           address: '20 Ikorodu Road',
           type: '3 Bedroom',
-          image_url: 'https://cloudinary.com/',
+          image_url: 'http://res.cloudinary.com/dqdbrbcqm/image/upload/t_media_lib_thumb/v1563016246/PropertyProLite/ubpm9mgjfcyvodbfez03.jpg',
         });
       expect(res.statusCode).toEqual(201);
       expect(res.body.status).toEqual('success');
@@ -134,7 +133,7 @@ describe('Property Test', () => {
           city: 'Yaba',
           address: '20 Ikorodu Road',
           type: '3 Bedroom',
-          image_url: 'https://cloudinary.com/',
+          image_url: 'http://res.cloudinary.com/dqdbrbcqm/image/upload/t_media_lib_thumb/v1563016246/PropertyProLite/ubpm9mgjfcyvodbfez03.jpg',
         });
       expect(res.statusCode).toEqual(400);
       expect(res.body.status).toEqual('error');
@@ -217,7 +216,7 @@ describe('Property Test', () => {
     });
 
 
-    it('Before: delete crete a property', async () => {
+    it('Before delete: create a property', async () => {
       const res = await request(app)
         .post(`${baseUrl}/property`)
         .set('token', superUserToken)
@@ -227,7 +226,7 @@ describe('Property Test', () => {
           city: 'Yaba',
           address: '20 Ikorodu Road',
           type: '3 Bedroom',
-          image_url: 'https://cloudinary.com/',
+          image_url: 'http://res.cloudinary.com/dqdbrbcqm/image/upload/t_media_lib_thumb/v1563016246/PropertyProLite/ubpm9mgjfcyvodbfez03.jpg',
         });
       validPropertyIdDelete = res.body.data.id;
     });
