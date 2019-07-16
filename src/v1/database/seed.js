@@ -1,34 +1,36 @@
 /* istanbul ignore file */
-/* eslint-disable no-console */
 import passwordHash from 'password-hash';
+import debug from 'debug';
 import pool from '../config/connection';
+
+const logger = debug('dev:testSeed');
 
 
 const password = passwordHash.generate('password');
-const agentPassword = passwordHash.generate('admin');
+const agentPassword = passwordHash.generate('password');
 
-const populateUsers = `INSERT INTO users(first_name, last_name, phone_number, password, email)
-                  VALUES('Jon', 'Doe', '07035087654', '${password}', 'youMeAll@gmail.com')`;
+const user1 = `INSERT INTO users(first_name, last_name, phone_number, password, email)
+VALUES('Jon', 'Doe', '07035087654', '${password}', 'tammyUser@example.com')`;
 
-const populateAgent = `INSERT INTO users(first_name, last_name, phone_number, password, email, is_admin)
-                  VALUES('Admin', 'Admin', '09035087650', '${agentPassword}', 'helloyou@gmail.com', true)`;
+const agent = `INSERT INTO users(first_name, last_name, phone_number, password, email, is_admin)
+VALUES('Admin', 'Admin', '09035087650', '${agentPassword}', 'tammy@example.com', true)`;
 
-const populateProperty = `INSERT INTO properties(price, state, city, address, image_url)
-                    VALUES(500000, 'state', 'city', 'address', 'https://res.cloudinary.com/drjpxke9z/image/upload/v1549984207/pdp_nucvwu.jpg')`;
+const property1 = `INSERT INTO properties(owner, price, state, city, address, type, image_url)
+VALUES(1, 500000, 'state', 'city', 'address', 'typeOfProperty', 'https://res.cloudinary.com/drjpxke9z/image/upload/v1549984207/pdp_nucvwu.jpg')`;
 
-const populateflag = `INSERT INTO flags(user_id, property_id, description)
-                    VALUES(1, 1, 'reason', 'description')`;
+const flag1 = `INSERT INTO flags(user_id, property_id, reason, description)
+VALUES(1, 1, 'reason' , 'description')`;
 
 
 (async function seedDb() {
   const client = await pool.connect();
   try {
-    await client.query(populateUsers);
-    await client.query(populateAgent);
-    await client.query(populateProperty);
-    await client.query(populateflag);
+    await client.query(user1);
+    await client.query(agent);
+    await client.query(property1);
+    await client.query(flag1);
   } catch (err) {
-    console.log(err);
+    logger(err);
   } finally {
     await client.release();
   }
