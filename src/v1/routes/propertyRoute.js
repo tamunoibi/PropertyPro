@@ -20,8 +20,8 @@ const {
 
 
 // These routes are only available to agents
-propertyRouter.post('/', validateProperty, createProperty);
-propertyRouter.patch('/:propertyId', validateParam, validateProperty, updateProperty);
+propertyRouter.post('/', createProperty);
+propertyRouter.patch('/:propertyId', validateParam, updateProperty);
 propertyRouter.patch('/:propertyId/sold', validateParam, markAsSold);
 propertyRouter.delete('/:propertyId', validateParam, deleteProperty);
 
