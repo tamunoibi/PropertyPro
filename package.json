@@ -10,10 +10,10 @@
     "coverage": "nyc report --reporter=text-lcov npm test",
     "migrate:reset": "babel-node src/v1/database/migrateReset.js",
     "migrate": "babel-node src/v1/database/index.js",
-    "migrate:refresh": "set DEBUG=dev:* & npm run migrate:reset & npm run migrate",
+    "migrate:refresh": "set DEBUG=dev:* & SET WINDOWS_NODE_ENV=test & npm run migrate:reset & npm run migrate & npm run test:seed",
     "migrate:seed": "set DEBUG=dev:* & babel-node src/v1/database/seed.js",
     "test:seed": "set DEBUG=dev:* & babel-node src/v1/database/testSeed.js",
-    "pretest": "set DEBUG=dev:* & SET WINDOWS_NODE_ENV=test & npm run migrate:reset & npm run migrate & npm run test:seed"
+    "pretest": "set DEBUG=dev:* & npm run migrate:reset & npm run migrate"
   },
   "repository": {
     "type": "git",

@@ -9,7 +9,8 @@ request.agent(app.listen());
 
 
 let superUserToken;
-const validPropertyId = 1;
+let validPropertyId;
+let validPropertyIdDelete;
 
 const baseUrl = '/api/v1';
 
@@ -32,11 +33,11 @@ describe('Property Test', () => {
       const res = await request(app)
         .post(`${baseUrl}/auth/signup`)
         .send({
-          first_name: 'John',
-          last_name: 'Paul',
+          first_name: 'testFirstName',
+          last_name: 'testLastName',
           phone_number: '09087653862',
           password: 'password',
-          email: 'tammyNew@example.com',
+          email: 'testEmail@example.com',
           address: '20 Ibuku Street, Lagos',
           is_admin: true,
         })
@@ -44,12 +45,13 @@ describe('Property Test', () => {
       expect(res.statusCode).toEqual(201);
       expect(res.status);
       expect(res.body.status).toEqual('success');
+      superUserToken = res.body.data.token;
     });
     it('should respond with 400 required fields missing', async () => {
       const res = await request(app)
         .post(`${baseUrl}/auth/signup`)
         .send({
-          first_name: 'John',
+          first_name: 'nameWithNOthingElse',
         })
         .expect(400);
       expect(res.statusCode).toEqual(400);
@@ -63,7 +65,7 @@ describe('Property Test', () => {
           last_name: 'Paul',
           phone_number: '09087653462',
           password: 'password',
-          email: 'tammyNew@example.com',
+          email: 'testEmail@example.com',
           address: '20 Ibuku Street, Lagos',
           is_admin: true,
         })
@@ -96,78 +98,14 @@ describe('Property Test', () => {
       expect(res.body.status).toEqual('error');
     });
   });
-
   describe('Before', () => {
     it('signin a user', async () => {
       const res = await request(app)
         .post(`${baseUrl}/auth/signin`)
-        .send({ email: 'tammy@example.com', password: 'password' })
+        .send({ email: 'testEmail@example.com', password: 'password' })
         .expect(200);
       expect(res.statusCode).toEqual(200);
       expect(res.body.status).toEqual('success');
-      superUserToken = res.body.data.token;
-    });
-  });
-  describe('property routes for users', async () => {
-    it('GET /property should return status 200 and get all properties', async () => {
-      const res = await request(app)
-        .get(`${baseUrl}/property`)
-        .set('token', superUserToken);
-      expect(res.statusCode).toEqual(200);
-      expect(res.body.status).toEqual('success');
-    });
-    it('GET /property status 401 authorization error', async () => {
-      const res = await request(app)
-        .get(`${baseUrl}/property`)
-        .set('token', 'rubbishToken');
-      expect(res.statusCode).toEqual(401);
-      expect(res.body.status).toEqual('error');
-    });
-
-
-    it('GET /property/?type status 200 should get all properties of a type', async () => {
-      const res = await request(app)
-        .get(`${baseUrl}/property/?mini-flat`)
-        .set('token', superUserToken);
-      expect(res.statusCode).toEqual(200);
-      expect(res.body.status).toEqual('success');
-    });
-    it('GET /property/?type status 401 authorization error', async () => {
-      const res = await request(app)
-        .get(`${baseUrl}/property/?typeOfProperty`)
-        .set('token', 'invalidToken');
-      expect(res.statusCode).toEqual(401);
-      expect(res.body.status).toEqual('error');
-    });
-    it('GET /property/?type=rubbishType status 404 non found', async () => {
-      const res = await request(app)
-        .get(`${baseUrl}/property/?type=rubbishType`)
-        .set('token', superUserToken);
-      expect(res.statusCode).toEqual(404);
-      expect(res.body.status).toEqual('error');
-    });
-
-
-    it('GET /property/:propertyId should get property by Id', async () => {
-      const res = await request(app)
-        .get(`${baseUrl}/property/${validPropertyId}`)
-        .set('token', superUserToken);
-      expect(res.statusCode).toEqual(200);
-      expect(res.body.status).toEqual('success');
-    });
-    it('GET /property/:propertyId should get property by Id', async () => {
-      const res = await request(app)
-        .get(`${baseUrl}/property/${validPropertyId}`)
-        .set('token', 'rubbishToken');
-      expect(res.statusCode).toEqual(401);
-      expect(res.body.status).toEqual('error');
-    });
-    it('GET /property/:rubbishId should return does not exist', async () => {
-      const res = await request(app)
-        .get(`${baseUrl}/property/00`)
-        .set('token', superUserToken);
-      expect(res.statusCode).toEqual(404);
-      expect(res.body.status).toEqual('error');
     });
   });
   describe('property routes for agents', async () => {
@@ -185,6 +123,8 @@ describe('Property Test', () => {
         });
       expect(res.statusCode).toEqual(201);
       expect(res.body.status).toEqual('success');
+      validPropertyId = res.body.data.id;
+      console.log('TCL: the property id created', res.body.data.id);
     });
     it('POST /property should return status 400 required fields missing', async () => {
       const res = await request(app)
@@ -278,9 +218,24 @@ describe('Property Test', () => {
     });
 
 
+    it('Before: delete crete a property', async () => {
+      const res = await request(app)
+        .post(`${baseUrl}/property`)
+        .set('token', superUserToken)
+        .send({
+          price: 2000.00,
+          state: 'Lagos State',
+          city: 'Yaba',
+          address: '20 Ikorodu Road',
+          type: '3 Bedroom',
+          image_url: 'https://cloudinary.com/',
+        });
+      validPropertyIdDelete = res.body.data.id;
+      console.log('TCL: the property id created to be deleted', res.body.data.id);
+    });
     it('DELETE /property/:propertyId return status 200 and delete a property', async () => {
       const res = await request(app)
-        .delete(`${baseUrl}/property/${validPropertyId}`)
+        .delete(`${baseUrl}/property/${validPropertyIdDelete}`)
         .set('token', superUserToken);
       expect(res.statusCode).toEqual(200);
       expect(res.body.status).toEqual('success');
@@ -302,6 +257,71 @@ describe('Property Test', () => {
     it('DELETE /property/:rubbishId should return 404 not found', async () => {
       const res = await request(app)
         .delete(`${baseUrl}/property/4564`)
+        .set('token', superUserToken);
+      expect(res.statusCode).toEqual(404);
+      expect(res.body.status).toEqual('error');
+    });
+  });
+  describe('property routes for users', async () => {
+    it('GET /property should return status 200 and get all properties', async () => {
+      const res = await request(app)
+        .get(`${baseUrl}/property`)
+        .set('token', superUserToken);
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.status).toEqual('success');
+      console.log('TCL: res.body', res.body);
+    });
+    it('GET /property status 401 authorization error', async () => {
+      const res = await request(app)
+        .get(`${baseUrl}/property`)
+        .set('token', 'rubbishToken');
+      expect(res.statusCode).toEqual(401);
+      expect(res.body.status).toEqual('error');
+    });
+
+
+    it('GET /property/?type status 200 should get all properties of a type', async () => {
+      const res = await request(app)
+        .get(`${baseUrl}/property/?mini-flat`)
+        .set('token', superUserToken);
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.status).toEqual('success');
+    });
+    it('GET /property/?type status 401 authorization error', async () => {
+      const res = await request(app)
+        .get(`${baseUrl}/property/?typeOfProperty`)
+        .set('token', 'invalidToken');
+      expect(res.statusCode).toEqual(401);
+      expect(res.body.status).toEqual('error');
+    });
+    it('GET /property/?type=rubbishType status 404 non found', async () => {
+      const res = await request(app)
+        .get(`${baseUrl}/property/?type=rubbishType`)
+        .set('token', superUserToken);
+      expect(res.statusCode).toEqual(404);
+      expect(res.body.status).toEqual('error');
+    });
+
+
+    it('GET /property/:propertyId should get property by Id', async () => {
+      const res = await request(app)
+        .get(`${baseUrl}/property/${validPropertyId}`)
+        .set('token', superUserToken);
+      console.log('TCL: superUserToken', superUserToken);
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.status).toEqual('success');
+    });
+    it('GET /property/:propertyId should get property by Id', async () => {
+      const res = await request(app)
+        .get(`${baseUrl}/property/${validPropertyId}`)
+        .set('token', 'rubbishToken');
+      expect(res.statusCode).toEqual(401);
+      expect(res.body.status).toEqual('error');
+    });
+    it('GET /property/:rubbishId should return does not exist', async () => {
+      const res = await request(app)
+        .get(`${baseUrl}/property/00`)
         .set('token', superUserToken);
       expect(res.statusCode).toEqual(404);
       expect(res.body.status).toEqual('error');
