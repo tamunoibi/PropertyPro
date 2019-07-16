@@ -124,7 +124,6 @@ describe('Property Test', () => {
       expect(res.statusCode).toEqual(201);
       expect(res.body.status).toEqual('success');
       validPropertyId = res.body.data.id;
-      console.log('TCL: the property id created', res.body.data.id);
     });
     it('POST /property should return status 400 required fields missing', async () => {
       const res = await request(app)
@@ -231,7 +230,6 @@ describe('Property Test', () => {
           image_url: 'https://cloudinary.com/',
         });
       validPropertyIdDelete = res.body.data.id;
-      console.log('TCL: the property id created to be deleted', res.body.data.id);
     });
     it('DELETE /property/:propertyId return status 200 and delete a property', async () => {
       const res = await request(app)
@@ -269,7 +267,6 @@ describe('Property Test', () => {
         .set('token', superUserToken);
       expect(res.statusCode).toEqual(200);
       expect(res.body.status).toEqual('success');
-      console.log('TCL: res.body', res.body);
     });
     it('GET /property status 401 authorization error', async () => {
       const res = await request(app)
@@ -307,7 +304,6 @@ describe('Property Test', () => {
       const res = await request(app)
         .get(`${baseUrl}/property/${validPropertyId}`)
         .set('token', superUserToken);
-      console.log('TCL: superUserToken', superUserToken);
 
       expect(res.statusCode).toEqual(200);
       expect(res.body.status).toEqual('success');
