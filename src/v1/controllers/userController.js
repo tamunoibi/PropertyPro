@@ -27,6 +27,8 @@ export default class UserController {
       }
       return null;
     } catch (err) {
+      console.log(err);
+
       return err;
     } finally {
       await client.release();
@@ -41,10 +43,10 @@ export default class UserController {
 
       if (existingUser) return res.status(409).json({ status: 'error', error: 'User already exists' });
       const {
-        first_name, last_name, password, phone_number, is_admin,
+        first_name, last_name, password, phone_number, address,
       } = req.body;
       const userData = {
-        email, first_name, last_name, password, phone_number, is_admin,
+        email, first_name, last_name, password, phone_number, address,
       };
       userData.password = await passwordHash.generate(password);
       const columns = Object.keys(userData);
@@ -58,6 +60,7 @@ export default class UserController {
       }
       return res.status(500).json({ status: 'error', error: 'Unable to save user' });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({ status: 'error', error: 'Internal server error Unable to signup new user' });
     } finally {
       await client.release();

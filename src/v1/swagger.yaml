@@ -62,11 +62,6 @@ paths:
         required: true
         type: string
         description: 'address of the user'
-      - name: is_admin
-        in: formData
-        required: true
-        type: string
-        description: 'role the user'
 
       responses:
         201:

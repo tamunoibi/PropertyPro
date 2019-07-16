@@ -7,16 +7,16 @@ const logger = debug('dev:testSeed');
 
 
 const password = passwordHash.generate('password');
-const agentPassword = passwordHash.generate('password');
+const agentPassword = passwordHash.generate('admin');
 
-const user1 = `INSERT INTO users(first_name, last_name, phone_number, password, email)
-VALUES('Jon', 'Doe', '07035087654', '${password}', 'tammyUser@example.com')`;
+const user1 = `INSERT INTO users(email, first_name, last_name, phone_number, password, address)
+VALUES('testUserEmail@example.com', 'userFirstName', 'userLastName', '07035087654', '${password}', 'testAddress')`;
 
-const agent = `INSERT INTO users(first_name, last_name, phone_number, password, email, is_admin)
-VALUES('Admin', 'Admin', '09035087650', '${agentPassword}', 'tammy@example.com', true)`;
+const agent = `INSERT INTO users(email, first_name, last_name, phone_number, password, address, is_admin)
+VALUES('testAgentEmail@example.com', 'agentFirstName', 'agentLastName', '07090679332', '${agentPassword}', 'testAddress', true)`;
 
 const property1 = `INSERT INTO properties(owner, price, state, city, address, type, image_url)
-VALUES(1, 500000, 'state', 'city', 'address', 'typeOfProperty', 'https://res.cloudinary.com/drjpxke9z/image/upload/v1549984207/pdp_nucvwu.jpg')`;
+VALUES(2, 500000, 'state', 'city', 'address', 'typeOfProperty', 'http://res.cloudinary.com/dqdbrbcqm/image/upload/t_media_lib_thumb/v1563016246/PropertyProLite/ubpm9mgjfcyvodbfez03.jpg')`;
 
 const flag1 = `INSERT INTO flags(user_id, property_id, reason, description)
 VALUES(1, 1, 'reason' , 'description')`;
@@ -24,15 +24,16 @@ VALUES(1, 1, 'reason' , 'description')`;
 
 (async function seedDb() {
   const client = await pool.connect();
+
   try {
     logger('Query starting...');
     logger(`Query...: ${user1}`);
     await client.query(user1);
-    logger(`Querry...: ${agent}`);
+    logger(`Query...: ${agent}`);
     await client.query(agent);
-    logger(`Querry...: ${property1}`);
+    logger(`Query...: ${property1}`);
     await client.query(property1);
-    logger(`Querry...: ${flag1}`);
+    logger(`Query...: ${flag1}`);
     await client.query(flag1);
   } catch (err) {
     logger(err);

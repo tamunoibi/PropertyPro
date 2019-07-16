@@ -45,12 +45,6 @@ export default class AuthValidator {
       .trim()
       .isLength({ min: 11 })
       .withMessage('Invalid address');
-    req
-      .check('is_admin', 'The User type is required')
-      .notEmpty()
-      .trim()
-      .isBoolean()
-      .withMessage('Invalid User type');
 
     const errors = req.validationErrors();
     if (errors) {
