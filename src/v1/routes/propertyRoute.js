@@ -8,7 +8,7 @@ const propertyRouter = Router();
 // Used for routs that start with /api/v1
 // /api/v1/property is already prepended to the route
 
-const { validateCreateProperty, validateUpdateProperty, validateParam } = PropertyValidator;
+const { validateProperty, validateParam } = PropertyValidator;
 const {
   createProperty,
   updateProperty,
@@ -20,8 +20,8 @@ const {
 
 
 // These routes are only available to agents
-propertyRouter.post('/', isAdmin, validateCreateProperty, createProperty);
-propertyRouter.patch('/:propertyId', validateParam, isAdmin, validateUpdateProperty, updateProperty);
+propertyRouter.post('/', isAdmin, validateProperty, createProperty);
+propertyRouter.patch('/:propertyId', validateParam, isAdmin, validateProperty, updateProperty);
 propertyRouter.patch('/:propertyId/sold', validateParam, isAdmin, markAsSold);
 propertyRouter.delete('/:propertyId', validateParam, isAdmin, deleteProperty);
 

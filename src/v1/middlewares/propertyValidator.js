@@ -4,55 +4,55 @@ const { extractErrors } = helpers;
 
 
 export default class PropertyValidator {
-  static validateCreateProperty(req, res, next) {
-    req
-      .check('price', 'price is required')
-      .notEmpty()
-      .trim()
-      .isNumeric()
-      .withMessage('price must be a number');
-    req
-      .check('state', 'state is required')
-      .notEmpty()
-      .trim()
-      .isLength({ min: 2 })
-      .withMessage('Enter a valid city');
-    req
-      .check('city', 'city is required')
-      .notEmpty()
-      .trim()
-      .isLength({ min: 2 })
-      .withMessage('Enter a valid city');
-    req
-      .check('address', 'The address is required')
-      .notEmpty()
-      .trim()
-      .isLength({ min: 11 })
-      .withMessage('Enter a valid address');
-    req
-      .check('type', 'type is required')
-      .notEmpty()
-      .trim()
-      .isLength({ min: 6 })
-      .withMessage('type cannot be less then 6 characters');
-    req
-      .check('image_url', 'image_url is required')
-      .notEmpty()
-      .trim()
-      .isURL()
-      .withMessage('Invalid image_url');
+  // static validateCreateProperty(req, res, next) {
+  //   req
+  //     .check('price', 'price is required')
+  //     .notEmpty()
+  //     .trim()
+  //     .isNumeric()
+  //     .withMessage('price must be a number');
+  //   req
+  //     .check('state', 'state is required')
+  //     .notEmpty()
+  //     .trim()
+  //     .isLength({ min: 2 })
+  //     .withMessage('Enter a valid city');
+  //   req
+  //     .check('city', 'city is required')
+  //     .notEmpty()
+  //     .trim()
+  //     .isLength({ min: 2 })
+  //     .withMessage('Enter a valid city');
+  //   req
+  //     .check('address', 'The address is required')
+  //     .notEmpty()
+  //     .trim()
+  //     .isLength({ min: 11 })
+  //     .withMessage('Enter a valid address');
+  //   req
+  //     .check('type', 'type is required')
+  //     .notEmpty()
+  //     .trim()
+  //     .isLength({ min: 6 })
+  //     .withMessage('type cannot be less then 6 characters');
+  //   req
+  //     .check('image_url', 'image_url is required')
+  //     .notEmpty()
+  //     .trim()
+  //     .isURL()
+  //     .withMessage('Invalid image_url');
 
-    const errors = req.validationErrors();
-    if (errors) {
-      return res.status(400).json({
-        status: 'error',
-        error: extractErrors(errors),
-      });
-    }
-    return next();
-  }
+  //   const errors = req.validationErrors();
+  //   if (errors) {
+  //     return res.status(400).json({
+  //       status: 'error',
+  //       error: extractErrors(errors),
+  //     });
+  //   }
+  //   return next();
+  // }
 
-  static validateUpdateProperty(req, res, next) {
+  static validateProperty(req, res, next) {
     const {
       type, price, state, city, address, image_url,
     } = req.body;

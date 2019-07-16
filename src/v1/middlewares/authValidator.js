@@ -72,7 +72,7 @@ export default class AuthValidator {
     if (errors) {
       return res.status(400).json({
         status: 'error',
-        errors: extractErrors(errors),
+        error: extractErrors(errors),
       });
     }
     return next();
