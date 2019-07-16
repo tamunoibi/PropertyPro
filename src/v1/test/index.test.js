@@ -124,20 +124,20 @@ describe('Property Test', () => {
       expect(res.body.status).toEqual('success');
       validPropertyId = res.body.data.id;
     });
-    it('POST /property should return status 400 required fields missing', async () => {
-      const res = await request(app)
-        .post(`${baseUrl}/property`)
-        .set('token', superUserToken)
-        .send({
-          state: 'Lagos State',
-          city: 'Yaba',
-          address: '20 Ikorodu Road',
-          type: '3 Bedroom',
-          image_url: 'http://res.cloudinary.com/dqdbrbcqm/image/upload/t_media_lib_thumb/v1563016246/PropertyProLite/ubpm9mgjfcyvodbfez03.jpg',
-        });
-      expect(res.statusCode).toEqual(400);
-      expect(res.body.status).toEqual('error');
-    });
+    // it('POST /property should return status 400 required fields missing', async () => {
+    //   const res = await request(app)
+    //     .post(`${baseUrl}/property`)
+    //     .set('token', superUserToken)
+    //     .send({
+    //       state: 'Lagos State',
+    //       city: 'Yaba',
+    //       address: '20 Ikorodu Road',
+    //       type: '3 Bedroom',
+    //       image_url: 'http://res.cloudinary.com/dqdbrbcqm/image/upload/t_media_lib_thumb/v1563016246/PropertyProLite/ubpm9mgjfcyvodbfez03.jpg',
+    //     });
+    //   expect(res.statusCode).toEqual(400);
+    //   expect(res.body.status).toEqual('error');
+    // });
     it('POST /property should return 401 authorization error', async () => {
       const res = await request(app)
         .post(`${baseUrl}/property`)
