@@ -20,9 +20,9 @@ The User interface is simple and intuitive.
 
 ### GitHub Pages link for UI Frontend
 
-[PropertyPro-lite/UI link for customer](https://girlking.github.io/PropertyPro/UI/all-apartment.html)
+[PropertyPro-lite/UI link for customer](https://taprekuma.github.io/PropertyPro/UI/all-apartment.html)
 
-[PropertyPro-lite/UI link for agent](https://girlking.github.io/PropertyPro/UI/agent-dashboard.html)
+[PropertyPro-lite/UI link for agent](https://taprekuma.github.io/PropertyPro/UI/agent-dashboard.html)
 
 ### REST API Docs
 
